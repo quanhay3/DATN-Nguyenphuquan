@@ -1,0 +1,15 @@
+# Ignore node modules and other dependencies
+node_modules
+*.log
+*.tmp
+**/coverage
+**/build
+dist
+.env
+.git
+.vscode
+.DS_Store
+
+# Ignore local development configuration files
+docker-compose.yml
+*.local
