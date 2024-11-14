@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom"
 import DefaultLayout from "../Layout/DefaultLayout"
-import ProductList from "../pages/ProductsList/ProuductList"
+import AdminLayout from "../Layout/AdminLayout"
+import ProductList from "../pages/Admin/ProductsList/ProuductList"
 
 const privateRouter = createBrowserRouter([
     {
@@ -8,7 +9,17 @@ const privateRouter = createBrowserRouter([
         element: <DefaultLayout/>,
         children: [
             {
-                path: "home",
+                path: "",
+                element: <h1>Home</h1>
+            },
+        ]
+    },
+    {
+        path: "/admin",
+        element: <AdminLayout/>,
+        children: [
+            {
+                path: "",
                 element: <h1>Home</h1>
             },
             {

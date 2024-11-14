@@ -1,8 +1,8 @@
 import { PlusCircleOutlined } from "@ant-design/icons";
 import { Button, Table } from "antd";
 import React, { useEffect, useState } from "react";
-import { getProducts } from "../../services/products";
-import { getDataTableList } from "../../helper/configTableData";
+import { getProducts } from "../../../services/products";
+import { getDataTableList } from "../../../helper/configTableData";
 import Column from "antd/es/table/Column";
 
 const ProductList = () => {
