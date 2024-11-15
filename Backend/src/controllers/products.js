@@ -3,39 +3,49 @@ import axios from "axios";
 import crypto from "crypto";
 import querystring from "qs";
 import dotenv from "dotenv";
+import LazadaAPI from "lazada-open-platform-sdk";
+
 dotenv.config();
 
-const appKey = 131197;
+const appKey = "131197";
 const clientSecret = "XB8HFsF3rFfD1sTcaEnvj20U2fobXOqU";
 const redirectUri = "https://devidshop-fashion.onrender.com/api/callback";
-const authCode = "0_131197_D6Io7RVUHvRGZ3o1rqd6mQsQ7642";
-const accessToken =
-  "50000201716i0RlqbVwH7kCUdtvt162d8d4dEFIth3dQSAjxHPuDwrawM1YvELHK";
+const authCode = "0_131197_IdzamvxOD79FRpJ3erXQU1Ex8569";
+let accessToken =
+  "50000200d279oyrwoThDZoVHHydrQCBBbx3KRuj1ac19669gmumYGtXGDBloy7zs";
 
 // Generate the signature and add it to params
 
 export const getProduct = async (req, res) => {
-  process.env.TZ = "Asia/Ho_Chi_Minh";
   try {
-    // let params = {
-    //   app_key: appKey,
-    //   code: authCode,
-    //   sign_method: "sha256", // Phương thức tính chữ ký
-    //   access_token: accessToken,
-    //   timestamp: Date.now().toString(), // Tạo timestamp hiện tại ở định dạng chuỗi
-    // };
-
-    // const apiPath = "/rest/products/get";
-    // params.sign = createSignature(clientSecret, apiPath, params);
-    // const queryParams = new URLSearchParams(params).toString();
-
-    const dataFromLazada = await axios.get(
-      "https://api.lazada.vn/rest/products/get?code=0_131197_D6Io7RVUHvRGZ3o1rqd6mQsQ7642&app_key=131197&sign_method=sha256&access_token=50000201716i0RlqbVwH7kCUdtvt162d8d4dEFIth3dQSAjxHPuDwrawM1YvELHK&timestamp=1731647883285&sign=BCFD5152F2E9787C90EEC41D4A4EF3B7B0B77F09F576C66A1E89D3A754EA5B36"
+    const aLazadaAPIWithToken = new LazadaAPI(
+      appKey,
+      clientSecret,
+      "VIETNAM",
+      accessToken
     );
+
+    const dataFromLazada = await aLazadaAPIWithToken.getProducts({
+      filter: "all",
+    });
+
+    dataFromLazada.data.products = dataFromLazada.data.products.map(item => {
+        const data = {
+            ...item,
+            ...item.attributes    
+        }
+        delete data.attributes
+        return data
+    })
+
+    // const dataFromLazada = await axios.get(
+    //   "https://api.lazada.vn" + apiPath + "?" + queryParams
+    // );
+
     const response = await shopify.product.list();
     res.json({
+      lazada: dataFromLazada?.data,
       shopify: response,
-      lazada: dataFromLazada.data.data,
     });
   } catch (error) {
     console.error(error);
@@ -44,47 +54,23 @@ export const getProduct = async (req, res) => {
 };
 
 async function getAccessToken() {
-  // Thông tin ứng dụng của bạn
-
-  // Tạo tham số `params`
-  let params = {
-    code: authCode,
-    app_key: appKey,
-    sign_method: "sha256", // Phương thức tính chữ ký
-    timestamp: Date.now().toString(), // Tạo timestamp hiện tại ở định dạng chuỗi
-  };
-
-  params = sortObject(params);
-
-  var signData = querystring.stringify(params, { encode: false });
-  var hmac = crypto.createHmac("sha256", clientSecret);
-  var sign = hmac
-    .update(new Buffer(signData, "utf-8"))
-    .digest("hex")
-    .toUpperCase();
-
-  // Thêm sign vào params
-  params.sign = sign;
-
-  // Tạo chuỗi truy vấn từ params
-  const queryParams = new URLSearchParams(params).toString();
-
   try {
-    console.log("====================================");
-    console.log(queryParams);
-    console.log("====================================");
-    console.log("====================================");
-    console.log(
-      "https://api.lazada.vn/rest/auth/token/createWithOpenId?" +
-        querystring.stringify(params, { encode: false })
-    );
-    console.log("====================================");
-    const response = await axios.get(
-      "https://api.lazada.vn/rest/auth/token/createWithOpenId?" +
-        querystring.stringify(params, { encode: false })
-    );
-    console.log("Access Token:", response.data);
-    return response.data;
+    let responseAPI = {};
+    const aLazadaAPI = new LazadaAPI(appKey, clientSecret, "VIETNAM");
+
+    await aLazadaAPI
+      .generateAccessToken({ code: authCode })
+      .then((response) => {
+        const { access_token } = response; // JSON data from Lazada's API
+        console.log("====================================");
+        console.log(access_token);
+        console.log("====================================");
+        responseAPI = { ...response };
+      });
+    console.log("1====================================");
+    console.log(responseAPI);
+    console.log("1====================================");
+    return responseAPI;
   } catch (error) {
     console.error(
       "Lỗi khi lấy access token:",
@@ -95,44 +81,12 @@ async function getAccessToken() {
 
 export const getToken = async (req, res) => {
   try {
-    const token = await getAccessToken();
-    res.json({ token });
+    const data = await getAccessToken();
+    console.log(data);
+
+    res.json({ data });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Có lỗi xảy ra" });
   }
 };
-
-function sortObject(obj) {
-  let sorted = {};
-  let str = [];
-  let key;
-  for (key in obj) {
-    if (obj.hasOwnProperty(key)) {
-      str.push(encodeURIComponent(key));
-    }
-  }
-  str.sort();
-  for (key = 0; key < str.length; key++) {
-    sorted[str[key]] = encodeURIComponent(obj[str[key]]).replace(/%20/g, "+");
-  }
-  return sorted;
-}
-
-function createSignature(secret, apiPath, parameters) {
-  // Sort the parameters alphabetically and concatenate as key-value pairs without separators
-  const sortedParams = Object.keys(parameters)
-    .sort()
-    .map((key) => `${key}${parameters[key]}`)
-    .join("");
-
-  // Concatenate the API path with the sorted parameters string
-  const parametersStr = `${apiPath}${sortedParams}`;
-
-  // Generate the HMAC-SHA256 signature
-  return crypto
-    .createHmac("sha256", secret)
-    .update(parametersStr)
-    .digest("hex")
-    .toUpperCase();
-}
