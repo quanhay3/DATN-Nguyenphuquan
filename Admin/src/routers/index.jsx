@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom"
 import DefaultLayout from "../Layout/DefaultLayout"
 import AdminLayout from "../Layout/AdminLayout"
-import ProductList from "../pages/Admin/ProductsList/ProuductList"
+import ProductsManagerList from "../pages/Admin/ProductsList/ProductsManagerList"
 
 const privateRouter = createBrowserRouter([
     {
@@ -24,7 +24,7 @@ const privateRouter = createBrowserRouter([
             },
             {
                 path: "product/list",
-                element: <ProductList/>
+                element: <ProductsManagerList/>
             }
         ]
     }
