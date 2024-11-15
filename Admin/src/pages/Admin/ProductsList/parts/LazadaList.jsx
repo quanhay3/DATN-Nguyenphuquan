@@ -11,7 +11,7 @@ const LazadaList = ({ products = [], isLoading = false }) => {
   }, [products]);
 
   const expandedColumn = [
-    { title: "Name", dataIndex: "title", key: "title" },
+    { title: "Status", dataIndex: "Status", key: "Status" },
     { title: "Price", dataIndex: "price", key: "price" },
     {
       title: "Image",
@@ -30,22 +30,38 @@ const LazadaList = ({ products = [], isLoading = false }) => {
     const data = record?.skus?.map((sku, index) => ({
       key: index + 1,
       ...sku,
-      image: sku.Images?.length == 0 ? record?.images[index] : "",
+      image: sku.Images?.length == 0 ? record?.images[index] : sku.Images[0],
       saleProp: Object.keys(sku?.saleProp)
         .sort()
         .map((key) => `${key}: ${sku.saleProp[key]}`)
         .join(""),
     }));
-    console.log(
-      data
-    );
+    console.log(data);
 
     return (
       <Table
         dataSource={data}
-        columns={expandedColumn}
+        columns={expandedColumn.map((column) => ({
+          ...column,
+          onHeaderCell: () => ({
+            style: {
+              backgroundColor: "#1677ff", // Màu nền header
+              color: "white",            // Màu chữ header
+              textAlign: "center",       // Căn giữa chữ
+            },
+          }),
+        }))}
         pagination={false}
         size="small"
+        onHeaderRow={() => {
+          return {
+            style: {
+              backgroundColor: "#4caf50",
+              color: "white",
+              textAlign: "center",
+            },
+          };
+        }}
       ></Table>
     );
   };

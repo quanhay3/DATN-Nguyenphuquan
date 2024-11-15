@@ -26,7 +26,16 @@ const ShopifyList = ({ products = [], isLoading = false }) => {
         return (
           <Table
             dataSource={data}
-            columns={expandedColumn}
+            columns={expandedColumn.map((column) => ({
+              ...column,
+              onHeaderCell: () => ({
+                style: {
+                  backgroundColor: "#1677ff", // Màu nền header
+                  color: "white",            // Màu chữ header
+                  textAlign: "center",       // Căn giữa chữ
+                },
+              }),
+            }))}
             pagination={false}
             size="small"
           >
