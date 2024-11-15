@@ -3,7 +3,7 @@ const { Sider } = Layout;
 import React from "react";
 import { PieChartOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
-import Logo from "./logo";
+import Logo from "./Logo";
 import images from "../assets/images";
 
 const SideMenu = ({ collapsed, setCollapsed = () => {} }) => {
