@@ -1,7 +1,6 @@
 {
-  "name": "datn-nguyenphuquan",
+  "name": "server",
   "version": "1.0.0",
-  "description": "datn",
   "main": "app.js",
   "type": "module",
   "scripts": {
