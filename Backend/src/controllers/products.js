@@ -19,36 +19,36 @@ export const getProduct = async (req, res) => {
   try {
     console.log("run");
     
-    // const aLazadaAPIWithToken = new LazadaAPI(
-    //   appKey,
-    //   clientSecret,
-    //   "SINGAPORE",
-    //   accessToken
-    // );
-    // console.log(aLazadaAPIWithToken);
+    const aLazadaAPIWithToken = new LazadaAPI(
+      appKey,
+      clientSecret,
+      "SINGAPORE",
+      accessToken
+    );
+    console.log(aLazadaAPIWithToken);
     
-    // const dataFromLazada = await aLazadaAPIWithToken.getProducts({
-    //   filter: "all",
-    // });
+    const dataFromLazada = await aLazadaAPIWithToken.getProducts({
+      filter: "all",
+    });
 
-    // dataFromLazada.data.products = dataFromLazada.data.products.map(item => {
-    //     const data = {
-    //         ...item,
-    //         ...item.attributes    
-    //     }
-    //     delete data.attributes
-    //     return data
-    // })
+    dataFromLazada.data.products = dataFromLazada.data.products.map(item => {
+        const data = {
+            ...item,
+            ...item.attributes    
+        }
+        delete data.attributes
+        return data
+    })
 
     // const dataFromLazada = await axios.get(
     //   "https://api.lazada.vn" + apiPath + "?" + queryParams
     // );
 
     const response = await shopify.product.list();
-    // console.log(dataFromLazada?.data[2] || []);
+    console.log(dataFromLazada?.data[2] || []);
 
     res.json({
-      // lazada: dataFromLazada?.data,
+      lazada: dataFromLazada?.data,
       shopify: response,
     });
   } catch (error) {
