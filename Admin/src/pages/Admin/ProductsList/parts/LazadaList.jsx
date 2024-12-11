@@ -36,7 +36,6 @@ const LazadaList = ({ products = [], isLoading = false }) => {
         .map((key) => `${key}: ${sku.saleProp[key]}`)
         .join(""),
     }));
-    console.log(data);
 
     return (
       <Table
