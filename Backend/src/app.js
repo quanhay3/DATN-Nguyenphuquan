@@ -28,7 +28,7 @@ app.use(
 );
 
 app.get("/", (req, res) => {
-  res.send("Hello, Express! how are you");
+  res.send("Hello, Express! how are you baby i love you sua di sua lai 50 lan roi lan cuoi cung toi test xem nao mot hai ba bon anh yeu em omg yeu nhau qua");
 });
 
 app.use("/api", authRouter)
