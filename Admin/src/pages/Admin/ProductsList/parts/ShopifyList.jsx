@@ -13,7 +13,8 @@ const ShopifyList = ({ products = [], isLoading = false }) => {
   const columns = [
     { title: "ID", dataIndex: "key", key: "key" },
     { title: "Title", dataIndex: "name", key: "name" },
-    { title: "Price", dataIndex: "brand", key: "brand" },
+    { title: "Price", dataIndex: "price", key: "price" },
+    { title: "Discount", dataIndex: "discount", key: "discount" },
     {
       title: "Image",
       dataIndex: "image",

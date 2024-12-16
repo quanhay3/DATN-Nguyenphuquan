@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { useGetProductByIdQuery } from "../../../services/product.service";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Button, InputNumber, message, Spin } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../../slices/cartSlice";
 import Item from "antd/es/list/Item";
 import { useAddToCartMutation } from "../../../services/cart.service";
+import { ArrowLeftOutlined } from "@ant-design/icons";
 
 const ProductDetailView = () => {
   const [addToCart] = useAddToCartMutation();
@@ -13,7 +14,7 @@ const ProductDetailView = () => {
   const dispatch = useDispatch();
   const { productId } = useParams();
   const { data, error, isLoading } = useGetProductByIdQuery(productId, {
-    refetchOnMountOrArgChange: true,  // Dữ liệu sẽ được gọi lại mỗi lần component mount lại hoặc nếu `productId` thay đổi
+    refetchOnMountOrArgChange: true, // Dữ liệu sẽ được gọi lại mỗi lần component mount lại hoặc nếu `productId` thay đổi
   });
   const auth = useSelector((state) => state.userReducer);
 
@@ -57,6 +58,12 @@ const ProductDetailView = () => {
 
   return (
     <div className="my-12 mx-10">
+      <Link className="text-black" to={"/"}>
+        <Button type="link">
+          <ArrowLeftOutlined />
+          Quay lại
+        </Button>
+      </Link>
       {isLoading ? (
         <div className="text-center">
           <Spin></Spin>
@@ -70,7 +77,9 @@ const ProductDetailView = () => {
                 className="w-full h-full object-contain"
               ></img>
               <div className="absolute right-0 top-4">
-                <p className="font-bold text-white bg-red-500 p-1 rounded-s-md">SALE</p>
+                <p className="font-bold text-white bg-red-500 p-1 rounded-s-md">
+                  SALE
+                </p>
               </div>
               {data?.product?.quantity == 0 && (
                 <div className="absolute flex items-center justify-center top-0 right-0 w-full h-full bg-slate-500 opacity-60">
