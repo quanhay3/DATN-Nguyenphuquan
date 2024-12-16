@@ -205,22 +205,6 @@ const Header = () => {
                 >
                   <SearchOutlined />
                 </li>
-                {!auth?.accessToken && (
-                  <li className="ml-[30px]">
-                    <Link to="/orders">
-                      <Tooltip
-                        title={
-                          <span className="text-white font-thin">
-                            Tra cứu đơn hàng
-                          </span>
-                        }
-                      >
-                        {" "}
-                        <PiPackageLight className="w-6 h-6 hover:text-[#d2401e] text-[#6f6f6f]" />
-                      </Tooltip>
-                    </Link>
-                  </li>
-                )}
                 {!auth?.accessToken ? (
                   <li className="max-sm:hidden header-icon-item header-search-icon text-[20px] ml-[30px] transition-colors duration-300 cursor-pointer hover:text-[#d2401e]">
                     <Popover

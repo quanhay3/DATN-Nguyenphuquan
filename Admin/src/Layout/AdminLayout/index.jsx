@@ -108,6 +108,7 @@ const AdminLayout = () => {
               height: 64,
             }}
           />
+          <Button onClick={() => navigate('/')}>Mua hàng</Button>
         </Header>
         <Content
           style={{

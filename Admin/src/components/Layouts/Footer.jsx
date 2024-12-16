@@ -148,7 +148,6 @@ const Footer = () => {
                 </li>
               </ul>
             </li>
-            <li className="footer-if list-link-instar ml-[30px] w-full lg:w-[calc(23%-30px)] max-lg:mt-[20px] "></li>
           </ul>
         </div>
         <div>

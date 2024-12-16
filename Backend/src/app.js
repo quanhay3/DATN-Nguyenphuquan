@@ -28,10 +28,12 @@ app.use(
 );
 
 app.get("/", (req, res) => {
-  res.send("Hello, Express! how are you baby i love you sua di sua lai 50 lan roi lan cuoi cung toi test xem nao mot hai ba bon anh yeu em omg yeu nhau qua");
+  res.send(
+    "Hello, Express! how are you baby i love you sua di sua lai 50 lan roi lan cuoi cung toi test xem nao mot hai ba bon anh yeu em omg yeu nhau qua"
+  );
 });
 
-app.use("/api", authRouter)
+app.use("/api", authRouter);
 app.use("/api", productRouter);
 app.use("/api", cartRouter);
 app.use("/api", orderRouter);
@@ -43,8 +45,8 @@ mongoose
   .connect(MONGO_URL)
   .then(async () => {
     console.log("connected to db");
-    await initData() //Gọi hàm khởi tạo dữ liệu 
-    await readDataFromfile() // Gọi hàm đọc dữ liệu sản phẩm từ file
+    await initData(); //Gọi hàm khởi tạo dữ liệu
+    await readDataFromfile(); // Gọi hàm đọc dữ liệu sản phẩm từ file
     app.listen(port, "0.0.0.0", () => {
       console.log(`Server is running on http://localhost:${port}`);
     });

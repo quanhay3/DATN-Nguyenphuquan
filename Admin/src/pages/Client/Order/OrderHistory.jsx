@@ -1,8 +1,9 @@
 import React from "react";
 import { useGetOrdersByUserQuery } from "../../../services/order.service";
 import Loading from "../../../components/Loading/Loading";
-import { Badge, Button } from "antd";
+import { Button } from "antd";
 import { Link } from "react-router-dom";
+import { format } from "date-fns";
 
 const OrderHistory = () => {
   const { data, isLoading } = useGetOrdersByUserQuery();
@@ -38,6 +39,19 @@ const OrderHistory = () => {
             <div>
               <div className="mb-2">
                 <p>
+                  Thời gian đặt hàng:{" "}
+                  <span className="font-bold">
+                    {order?.orderDate
+                      ? format(
+                          new Date(order?.orderDate),
+                          "dd/MM/yyyy HH:mm:ss"
+                        )
+                      : "N/A"}
+                  </span>
+                </p>
+              </div>
+              <div className="mb-2">
+                <p>
                   Thông tin nhận hàng:{" "}
                   <span className="font-bold">{order?.shippingAddress}</span>
                 </p>
@@ -61,9 +75,9 @@ const OrderHistory = () => {
               </div>
             </div>
             <div className="text-right">
-                <Link to={'/'}>
-                    <Button>Chi tiết</Button>
-                </Link>
+              <Link to={"/"}>
+                <Button>Chi tiết</Button>
+              </Link>
             </div>
           </div>
         );

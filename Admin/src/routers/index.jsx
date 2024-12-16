@@ -11,7 +11,7 @@ import CartPage from "../pages/Client/Cart/CartPage"
 import Complete from "../pages/Client/Complete/Complete"
 import OrderHistory from "../pages/Client/Order/OrderHistory"
 
-const privateRouter = createBrowserRouter([
+const privateRouter = [
     {
         path: "/",
         element: <DefaultLayout/>,
@@ -66,6 +66,6 @@ const privateRouter = createBrowserRouter([
             }
         ]
     }
-])
+]
 
 export default privateRouter
