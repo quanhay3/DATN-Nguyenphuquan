@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useClearTokenMutation, useGetTokenQuery } from "../../services/auth.service";
 import { message } from "antd";
 import { deleteTokenAndUser, saveTokenAndUser } from "../../slices/authSlice";
+import ScrollToTop from "../../components/ScrollToTop/ScrollToTop";
 
 const index = () => {
   const dispatch = useDispatch();
@@ -18,6 +19,7 @@ const index = () => {
   useEffect(() => {
     if (!isLoading && data?.body?.data.accessToken != "") {
        dispatch(saveTokenAndUser({ accessToken: data?.body.data?.accessToken, user: data?.body.data?.data }));
+      //  dispatch(setItems())
     } else if (!isLoading && data?.body?.data.accessToken == "" && Object.keys(auth?.user).length > 0) {
        dispatch(deleteTokenAndUser())
        clearToken();
@@ -36,10 +38,11 @@ const index = () => {
   }, [data?.body?.data, pathname, refetch])
 
   return (
-    <div className="overflow-x-hidden">
+    <div className="">
       <Header></Header>
       <Outlet></Outlet>
       <Footer></Footer>
+      <ScrollToTop/>
     </div>
   );
 };

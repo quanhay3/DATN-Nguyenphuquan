@@ -3,7 +3,7 @@ import User from '../models/user.js'
 import dotenv from 'dotenv';
 dotenv.config()
 
-export const authorization = async (req, res, next) => {
+const authorization = async (req, res, next) => {
     try {
         const token = req.cookies?.refreshToken
         if(!token) {
@@ -34,3 +34,5 @@ export const authorization = async (req, res, next) => {
         })
     }
 }
+
+export default authorization;

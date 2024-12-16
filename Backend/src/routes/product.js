@@ -1,9 +1,12 @@
 import express from "express";
 const router = express.Router();
-import { getProduct, getToken } from "../controllers/products.js";
+import { getAllProducts, getProduct } from "../controllers/product.js";
 
-router.get("/product/list", getProduct);
-router.get("/token", getToken);
+router.get('/products', getAllProducts)
+router.get('/product/:id', getProduct)
+
+// router.get("/product/list", getProduct);
+// router.get("/token", getToken);
 // const clientId = '6ebeecjfnv44b';
 // const redirectUri = 'https://devidshop-fashion.onrender.com/api/callback';
 // const scope = 'user_info';

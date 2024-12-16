@@ -1,9 +1,10 @@
-import User from '../models/user.js';
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
-import { typeRequestMw } from '../middleware/configResponse.js';
-import { signinSchema, singupSchema } from '../validation/auth.js';
+import User from "../models/user.js";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+import { typeRequestMw } from "../middleware/configResponse.js";
+import { signinSchema, singupSchema } from "../validation/auth.js";
+import Cart from "../models/cart.js";
 
 dotenv.config();
 const { RESPONSE_MESSAGE, RESPONSE_STATUS, RESPONSE_OBJ } = typeRequestMw;
@@ -13,9 +14,9 @@ export const signUp = async (req, res, next) => {
     const { error } = singupSchema.validate(req.body, { abortEarly: false });
 
     if (error) {
-       req[RESPONSE_STATUS] = 500;
-       req[RESPONSE_MESSAGE] = `${error.details[0].message}`;
-       return next();
+      req[RESPONSE_STATUS] = 500;
+      req[RESPONSE_MESSAGE] = `${error.details[0].message}`;
+      return next();
     }
 
     const userExist = await User.findOne({ email: req.body.email });
@@ -36,6 +37,13 @@ export const signUp = async (req, res, next) => {
       req[RESPONSE_MESSAGE] = `Quá trình đăng ký bị lỗi! Vui lòng thử lại sau`;
       return next();
     }
+
+    // Tạo Giỏ hàng cho người dùng sau khi đăng ký thành công
+    const cart = await Cart.create({
+      userId: user._id, // Liên kết giỏ hàng với user mới
+      items: [], // Khởi tạo giỏ hàng trống
+      totalAmount: 0, // Giỏ hàng bắt đầu không có sản phẩm
+    });
 
     const refreshToken = jwt.sign(
       { _id: user._id },
@@ -114,6 +122,22 @@ export const signIn = async (req, res, next) => {
       ] = `Quá trình đăng nhập bị lỗi! vui lòng thử lại sau`;
       return next();
     }
+
+    // Kiểm tra xem user đã có giỏ hàng chưa
+    let cart = await Cart.findOne({ userId: user._id });
+
+    // Nếu chưa có giỏ hàng, tạo mới giỏ hàng trống cho user
+    if (!cart) {
+      cart = new Cart({
+        userId: user._id,
+        items: [], // Giỏ hàng trống
+        totalAmount: 0, // Tổng giá trị ban đầu là 0
+      });
+
+      // Lưu giỏ hàng mới vào database
+      await cart.save();
+    }
+
     const refreshToken = jwt.sign(
       { _id: user._id },
       process.env.SERECT_REFRESHTOKEN_KEY,

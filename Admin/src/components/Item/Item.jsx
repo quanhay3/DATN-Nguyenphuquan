@@ -14,8 +14,8 @@ const Item = ({ data }) => {
       <Badge.Ribbon className="inline-block" color="red" text="SALE">
         <Card
           hoverable
-          style={{ 
-            width: 280, 
+          style={{
+            width: 280,
             height: 400,
             display: "flex",
             flexDirection: "column",
@@ -25,11 +25,40 @@ const Item = ({ data }) => {
             <img
               alt="example"
               className="max-h-[280px] object-cover"
-              src={item.images && item.images.length > 0 ? item.images[0] : ''}
+              src={item?.image || ""}
             />
           }
         >
-          <Meta title={item?.name} description={(item?.skus && item?.skus.length > 0) ? item?.skus[0]?.special_price ? (<p className=""><del>{(item?.skus[0]?.price || 0) + " đ"}</del> <p className="text-xl font-bold text-red-500">{(item?.skus[0]?.special_price || 0) + " đ"}</p></p>) : (<p className="text-xl font-bold text-red-500">{(item?.skus[0]?.price || 0) + " đ"}</p>) : "0 đ"} />
+          <Meta
+            title={item?.name}
+            description={
+              item?.discount ? (
+                <p className="">
+                  <del>
+                    {(+item?.price || 0).toLocaleString("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    })}
+                  </del>{" "}
+                  <p className="text-xl font-bold text-red-500">
+                    {(
+                      item.price - (item.price * item.discount) / 100 || 0
+                    ).toLocaleString("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    })}
+                  </p>
+                </p>
+              ) : (
+                <p className="text-xl font-bold text-red-500">
+                  {(+item?.price || 0).toLocaleString("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  })}
+                </p>
+              )
+            }
+          />
         </Card>
       </Badge.Ribbon>
     </div>

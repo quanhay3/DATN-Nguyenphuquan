@@ -7,7 +7,7 @@ import { RiBillLine } from "react-icons/ri";
 import { FiLogIn, FiLogOut } from "react-icons/fi";
 import { MdOutlineLockReset } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
-import { Popover, Tooltip } from "antd";
+import { Badge, Popover, Tooltip } from "antd";
 import { PiPackageLight, PiUserListBold } from "react-icons/pi";
 import { LuUser2 } from "react-icons/lu";
 import { CiLocationOn } from "react-icons/ci";
@@ -15,9 +15,19 @@ import images from "../../assets/images";
 import { info } from "../../constants/info";
 import { deleteTokenAndUser } from "../../slices/authSlice";
 import { useClearTokenMutation } from "../../services/auth.service";
+import { HiOutlineShoppingBag } from "react-icons/hi2";
+import { useEffect, useState } from "react";
+import { useGetCartQuery } from "../../services/cart.service";
 
 const Header = () => {
+  const [showfetch, setShowFetch] = useState(false);
   const auth = useSelector((state) => state.userReducer);
+  const {
+    data: cartData,
+    isLoading: cartLoading,
+    refetch: cartReFetch,
+  } = useGetCartQuery(auth.user?._id, { skip: !showfetch });
+
   const [clearToken] = useClearTokenMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -26,6 +36,36 @@ const Header = () => {
     clearToken();
     navigate("/");
   };
+
+  useEffect(() => {
+    if (auth.user?._id) {
+      setShowFetch(true);
+    }
+  }, [auth.user?._id]);
+
+  useEffect(() => {
+    console.log(cartData);
+  }, [cartData])
+  
+
+  function scrollFunction() {
+    const btn_totop = document.querySelector(".section-icon-to-top");
+    if (document.documentElement.scrollTop > 400) {
+      btn_totop?.classList.add("!visible");
+      btn_totop?.classList.add("!opacity-100");
+    } else {
+      btn_totop?.classList.remove("!visible");
+      btn_totop?.classList.remove("!opacity-100");
+    }
+  }
+
+  useEffect(() => {
+    const handleScroll = () => {
+      scrollFunction();
+    };
+    window.addEventListener("scroll", () => handleScroll());
+    return window.removeEventListener("scroll", () => handleScroll());
+  });
 
   const showMenuReponsive = () => {
     const bodyElement = document.querySelector("body");
@@ -38,6 +78,13 @@ const Header = () => {
 
     const header_menu = document.querySelector(".header-menu");
     header_menu?.classList.toggle("max-xl:translate-x-[0%]");
+  };
+
+  const showMiniCart = () => {
+    const mini_cart_overlay = document.querySelector(".mini-cart-overlay");
+    mini_cart_overlay?.classList.toggle("hidden");
+    const wrap_mini_cart = document.querySelector(".wrap-mini-cart");
+    wrap_mini_cart?.classList.toggle("!translate-x-[0%]");
   };
 
   return (
@@ -64,7 +111,7 @@ const Header = () => {
           </span>
         </p>
       </div>
-      <header className="header sticky top-0 right-0 left-0 z-[5] transition-all duration-500 border-b-[1px] bg-slate-900 border-[#e2e2e2]  shadow-[0px_0px_10px_rgba(51,51,51,0.15)]">
+      <header className="header text-white sticky top-0 right-0 left-0 z-[5] transition-all duration-500 border-b-[1px] bg-slate-900 border-[#e2e2e2]  shadow-[0px_0px_10px_rgba(51,51,51,0.15)]">
         <section className="mx-auto px-[30px] w-full relative max-w-[1520px] m-auto">
           <div className="header-content flex items-center max-xl:justify-between ">
             <div className="header-logo xl:w-[13%] max-xl:[w-auto] ">
@@ -274,6 +321,20 @@ const Header = () => {
                         />
                       </Popover>
                     </li>
+                    <Badge
+                      className="max-sm:hidden"
+                      size="small"
+                      offset={[2, 2]}
+                      count={cartData?.body?.data?.items.length || 0}
+                      showZero={true}
+                    >
+                      <li
+                        onClick={showMiniCart}
+                        className="max-sm:hidden text-white header-icon-item header-search-icon text-[20px] ml-[30px] relative transition-colors duration-300 cursor-pointer hover:text-[#d2401e]"
+                      >
+                        <HiOutlineShoppingBag></HiOutlineShoppingBag>
+                      </li>
+                    </Badge>
                   </>
                 )}
               </ul>

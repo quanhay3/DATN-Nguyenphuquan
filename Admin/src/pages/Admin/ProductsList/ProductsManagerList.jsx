@@ -1,24 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { getProducts } from "../../../services/products";
 import ShopifyList from "./parts/ShopifyList";
 import LazadaList from "./parts/LazadaList";
 import { Tabs } from "antd";
+import { useGetProductsQuery } from "../../../services/product.service";
 
 const ProductsManagerList = () => {
-  const [products, setProducts] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    fetchProducts();
-  }, []);
-
-  const fetchProducts = async () => {
-    setIsLoading(true);
-    const result = await getProducts();
-    console.log(result);
-    setProducts(result);
-    setIsLoading(false);
-  };
+  const { data, isLoading, refetch, error } = useGetProductsQuery()
 
   return (
     <div>
@@ -31,12 +18,12 @@ const ProductsManagerList = () => {
           {
             label: `Shopify`,
             key: 1,
-            children: <ShopifyList isLoading={isLoading} products={products?.shopify || []}></ShopifyList>,
+            children: <ShopifyList isLoading={isLoading} products={data?.shopify || []}></ShopifyList>,
           },
           {
             label: `Lazada`,
             key: 2,
-            children: <LazadaList isLoading={isLoading} products={products?.lazada?.products || []}></LazadaList>,
+            children: <LazadaList isLoading={isLoading} products={data?.lazada || []}></LazadaList>,
           }
         ]}
       />

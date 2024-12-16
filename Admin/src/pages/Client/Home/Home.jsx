@@ -1,27 +1,15 @@
 import React, { useEffect, useState } from "react";
 import BannerSlice from "./BannerSlice/BannerSlice";
-import { getProducts } from "../../../services/products";
 import Item from "../../../components/Item/Item";
-import { Spin } from "antd";
+import { Spin, Tabs } from "antd";
+import { useGetProductsQuery } from "../../../services/product.service";
+import { Link } from "react-router-dom";
 
 const Home = () => {
-  const [products, setProducts] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    fetchProducts();
-  }, []);
-
-  const fetchProducts = async () => {
-    setIsLoading(true);
-    const result = await getProducts();
-    console.log(result);
-    setProducts(result.lazada.products);
-    setIsLoading(false);
-  };
+  const { data, isLoading, refetch, error } = useGetProductsQuery();
 
   return (
-    <div>
+    <div className="overflow-x-hidden">
       <div className="px-32">
         <BannerSlice />
 
@@ -30,21 +18,55 @@ const Home = () => {
             Sản phẩm nổi bật
           </h1>
           <div className="my-12">
-              {isLoading ? (
-                <div className="text-center">
-                  <Spin></Spin>
-                </div>
-              ) : (
-                <div className="flex flex-wrap gap-3 justify-around">
-                  {products.length > 0 ? (
-                    products.map((item, index) => {
-                      return <Item key={index} data={item}></Item>;
-                    })
-                  ) : (
-                    <></>
-                  )}
-                </div>
-              )}
+            {isLoading ? (
+              <div className="text-center">
+                <Spin></Spin>
+              </div>
+            ) : (
+              <div>
+                {data ? (
+                  <Tabs
+                    defaultActiveKey="1"
+                    type="card"
+                    size={"large"}
+                    items={[
+                      {
+                        label: `Lazada`,
+                        key: 1,
+                        children: (
+                          <div className="flex flex-wrap gap-3 justify-around">
+                            {data?.lazada?.map((item, index) => {
+                              return (
+                                <Link to={"/product/" + item._id} key={index}>
+                                  <Item data={item}></Item>
+                                </Link>
+                              );
+                            })}
+                          </div>
+                        ),
+                      },
+                      {
+                        label: `Shopify`,
+                        key: 22,
+                        children: (
+                          <div className="flex flex-wrap gap-3 justify-around">
+                            {data?.shopify?.map((item, index) => {
+                              return (
+                                <Link to={"/product/" + item._id} key={index}>
+                                  <Item data={item}></Item>
+                                </Link>
+                              );
+                            })}
+                          </div>
+                        ),
+                      },
+                    ]}
+                  />
+                ) : (
+                  <></>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>

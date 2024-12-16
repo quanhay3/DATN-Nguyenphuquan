@@ -6,6 +6,10 @@ import Login from "../pages/Client/Login/Login"
 import SignUp from "../pages/Client/SignUp/SignUp"
 import NotFoundPage from "../pages/Client/NotFoundPage/NotFoundPage"
 import Home from "../pages/Client/Home/Home"
+import ProductDetailView from "../pages/Client/ProductDetailView/ProductDetailView"
+import CartPage from "../pages/Client/Cart/CartPage"
+import Complete from "../pages/Client/Complete/Complete"
+import OrderHistory from "../pages/Client/Order/OrderHistory"
 
 const privateRouter = createBrowserRouter([
     {
@@ -15,6 +19,25 @@ const privateRouter = createBrowserRouter([
             {
                 path: "",
                 element: <Home />,
+                errorElement: <NotFoundPage />
+            },
+            {
+                path: 'product/:productId',
+                element: <ProductDetailView/>
+            },
+            {
+                path: 'cart',
+                element: <CartPage />,
+                errorElement: <NotFoundPage />
+            },
+            {
+                path: 'order_complete',
+                element: <Complete />,
+                errorElement: <NotFoundPage />
+            },
+            {
+                path: 'orders',
+                element: <OrderHistory />,
                 errorElement: <NotFoundPage />
             },
             {
