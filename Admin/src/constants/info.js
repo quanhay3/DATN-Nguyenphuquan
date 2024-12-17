@@ -1,5 +1,5 @@
 export const info = {
-    address: "thôn 6 xã Quỳnh Nghĩa, Quỳnh Lưu, Nghệ an",
+    address: "175 Tây Sơn",
     email: "nuocmamphunghia@gmail.com",
     phoneNumber: "1900 8866 18",
     websiteUrl: 'https://nuocmamphunghia.com/',
