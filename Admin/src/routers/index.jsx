@@ -53,6 +53,11 @@ const privateRouter = [
         ]
     },
     {
+        path: "/test",
+        element: <div><h1 className="text-[30px] text-center">CHÀOOOOOO!!!!!</h1></div>,
+        errorElement: <NotFoundPage />
+    },
+    {
         path: "/admin",
         element: <AdminLayout/>,
         children: [
