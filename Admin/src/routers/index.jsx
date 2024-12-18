@@ -54,7 +54,7 @@ const privateRouter = [
     },
     {
         path: "/test",
-        element: <div><h1 className="text-[30px] text-center">CHÀOOOOOO!!!!!</h1></div>,
+        element: <div><h1 className="text-[30px] text-center">CHÀOOOOOO TEST THÔI!!!!!</h1></div>,
         errorElement: <NotFoundPage />
     },
     {
