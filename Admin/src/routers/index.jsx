@@ -69,7 +69,7 @@ const privateRouter = [
         path: "/test",
         element: (
             <div>
-                <h1 className="text-[30px] text-center">CHÀOOOOOO TEST THÔI!!!!!</h1>
+                <h1 className="text-[30px] text-center">Trang này để thực hiện test tải cho frontend</h1>
                 <div className="text-center mt-4">
                     <GetServerIP />
                 </div>
