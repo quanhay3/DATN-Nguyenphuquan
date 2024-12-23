@@ -21,7 +21,7 @@ const ProductsManagerList = () => {
             children: <ShopifyList isLoading={isLoading} products={data?.shopify || []}></ShopifyList>,
           },
           {
-            label: `Lazada`,
+            label: `Shopee`,
             key: 2,
             children: <LazadaList isLoading={isLoading} products={data?.lazada || []}></LazadaList>,
           }
