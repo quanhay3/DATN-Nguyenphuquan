@@ -3,6 +3,8 @@ import bcrypt from "bcrypt";
 import xlsx from "xlsx";
 import fs from "fs";
 import Product from "../models/product.js";
+import Category from "../models/category.js";
+import product from "../models/product.js";
 
 export const initData = async () => {
   try {
@@ -28,13 +30,13 @@ export const readDataFromfile = async () => {
   const productCount = await Product.countDocuments();
   if (
     fs.existsSync(
-      "C:/Users/hoadn/OneDrive/Desktop/workplace/powder automate/shopee.xlsx"
+      "C:/Users/hoadn/OneDrive/Desktop/workplace/data/lazada_sale_items.xlsx"
     ) &&
     productCount === 0
   ) {
     // Đọc file Excel
     const workbook = xlsx.readFile(
-      "C:/Users/hoadn/OneDrive/Desktop/workplace/powder automate/shopee.xlsx"
+      "C:/Users/hoadn/OneDrive/Desktop/workplace/data/lazada_sale_items.xlsx"
     );
     const sheet_name_list = workbook.SheetNames;
 
@@ -44,13 +46,19 @@ export const readDataFromfile = async () => {
     // Chuyển sheet thành dạng JSON (bỏ qua dòng tiêu đề)
     const products = xlsx.utils.sheet_to_json(sheet, { header: 1 }).slice(1); // Bỏ qua dòng tiêu đề
 
+    const categories = await Category.find(); // Lấy danh sách category từ DB
+    if (!categories.length) {
+      console.error("No categories found in the database.");
+      return;
+    }
+
     // Hàm tạo dữ liệu sản phẩm
-    const generateProductData = (url, name, price) => {
+    const generateProductData = (url, name, price, categoryId) => {
       // Xử lý giá trị price để loại bỏ dấu chấm và ký tự "₫"
 
       const priceWithoutDotsAndCurrency = parseFloat(
         typeof price == "string"
-          ? price.replace(/\./g, "").replace(" ₫", "")
+          ? price.replace(/\./g, "").replace("₫", "")
           : `${price}`.replace(/\./g, "")
       );
 
@@ -66,15 +74,55 @@ export const readDataFromfile = async () => {
         description: `Đây là ${name}`, // Tạo description
         quantity: quantity,
         status: "SALE",
-        category: "Shopify",
+        categoryId: categoryId,
       };
     };
 
-    // Tạo dữ liệu sản phẩm từ danh sách các sản phẩm trong file Excel
-    const datas = products.map(([url, name, price]) =>
-      generateProductData(url, name, price)
-    );
+    const datas = products.map(([name, price, _, url]) => {
+      const randomCategory =
+        categories[Math.floor(Math.random() * categories.length)];
+      return generateProductData(url, name, price, randomCategory._id);
+    });
 
-    datas.map(async (item) => await Product.create(item));
+    for (const data of datas) {
+      const product = await Product.create(data);
+
+      // Gắn id sản phẩm vào danh mục
+      await Category.findByIdAndUpdate(
+        product.categoryId,
+        { $push: { products: product._id } },
+        { new: true }
+      );
+    }
+
+    console.log("Products and categories linked successfully.");
   }
+};
+
+export const createCategory = async () => {
+  const categoriesCount = await Category.countDocuments();
+  if (categoriesCount > 0) {
+    return;
+  }
+  const categories = [
+    { name: "Electronics", products: [] },
+    { name: "Clothing", products: [] },
+    { name: "Home & Garden", products: [] },
+    { name: "Sports & Outdoors", products: [] },
+    { name: "Books & Audible", products: [] },
+    { name: "Toys & Games", products: [] },
+    { name: "Health & Beauty", products: [] },
+    { name: "Gifts & Watches", products: [] },
+    { name: "Pet Supplies", products: [] },
+    { name: "Travel & Luggage", products: [] },
+    { name: "Business & Industrial", products: [] },
+    { name: "Music & Audio", products: [] },
+    { name: "Pet Care & Accessories", products: [] },
+    { name: "Services & Professional", products: [] },
+    { name: "Automotive & Motorcycle", products: [] },
+    { name: "Office Supplies", products: [] },
+    { name: "Miscellaneous", products: [] },
+  ];
+
+  categories.map(async (item) => await Category.create(item));
 };

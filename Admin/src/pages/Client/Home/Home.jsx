@@ -46,11 +46,11 @@ const Home = () => {
                         ),
                       },
                       {
-                        label: `Shopify`,
+                        label: `Shopee`,
                         key: 22,
                         children: (
                           <div className="flex flex-wrap gap-3 justify-around">
-                            {data?.shopify?.map((item, index) => {
+                            {data?.shopee?.map((item, index) => {
                               return (
                                 <Link to={"/product/" + item._id} key={index}>
                                   <Item data={item}></Item>

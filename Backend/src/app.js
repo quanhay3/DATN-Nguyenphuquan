@@ -4,13 +4,14 @@ import authRouter from "./routes/auth.js";
 import cartRouter from "./routes/cart.js";
 import orderRouter from "./routes/order.js";
 import userRouter from "./routes/user.js";
+import categoryRouter from "./routes/category.js";
 import cors from "cors";
 import http from "http";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import mongoose from "mongoose";
 import session from "express-session";
-import { initData, readDataFromfile } from "./scripts/init.js";
+import { createCategory, initData, readDataFromfile } from "./scripts/init.js";
 
 dotenv.config();
 const app = express();
@@ -38,6 +39,7 @@ app.use("/api", productRouter);
 app.use("/api", cartRouter);
 app.use("/api", orderRouter);
 app.use("/api", userRouter);
+app.use("/api", categoryRouter);
 
 const port = process.env.PORT || 8080;
 const MONGO_URL = process.env.MONGODB_LOCAL;
@@ -45,6 +47,7 @@ mongoose
   .connect(MONGO_URL)
   .then(async () => {
     console.log("connected to db");
+    await createCategory()
     await initData(); //Gọi hàm khởi tạo dữ liệu
     await readDataFromfile(); // Gọi hàm đọc dữ liệu sản phẩm từ file
     app.listen(port, "0.0.0.0", () => {

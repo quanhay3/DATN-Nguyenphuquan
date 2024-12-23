@@ -17,13 +17,13 @@ export const getAllProducts = async (req, res, next) => {
       return;
     }
 
-    const lazada = products.filter(prd => prd.category == "Lazada")
-    const shopify = products.filter(prd => prd.category == "Shopify")
+    const lazada = products.filter(prd => prd.type == "Lazada")
+    const shopee = products.filter(prd => prd.type == "Shopee")
 
     res.status(200).json({
       message: 'Danh sách sản phẩm',
       lazada,
-      shopify
+      shopee
     });
   } catch (error) {
     console.error('Error fetching products:', error);
