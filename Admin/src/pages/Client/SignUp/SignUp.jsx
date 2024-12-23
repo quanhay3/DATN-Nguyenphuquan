@@ -10,19 +10,20 @@ const SignUp = () => {
   const dispatch = useDispatch();
   const [signup, { data, isLoading, error }] = useSignupMutation();
   const onFinish = async (values = {}) => {
-    try {
+      try {
         await signup({
             userName: values.userName,
             email: values.email,
             password: values.password,
             confirmPassword: values.confirmPassword,
-         }).catch((error) => {
+        }).then(() => navigate('/')).catch((error) => {
             message.error(error.data.message)
-         })
+        })
     } catch (error) {
       message.error(error.data.message);
     }
   };
+
 
   if (isLoading) return <Loading screenSize='lg' />;
   return <div className="py-11">
@@ -47,7 +48,7 @@ const SignUp = () => {
     >
       <Form.Item
         label="Username"
-        name="username"
+        name="userName"
         rules={[
           {
             required: true,

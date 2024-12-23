@@ -10,7 +10,20 @@ import ProductDetailView from "../pages/Client/ProductDetailView/ProductDetailVi
 import CartPage from "../pages/Client/Cart/CartPage"
 import Complete from "../pages/Client/Complete/Complete"
 import OrderHistory from "../pages/Client/Order/OrderHistory"
+import React, { useState, useEffect } from "react";
 
+const GetServerIP = () => {
+    const [serverIP, setServerIP] = useState("Loading...");
+
+    useEffect(() => {
+        fetch("/api/ip") // Endpoint này cần được cấu hình trong Nginx
+            .then(response => response.text())
+            .then(ip => setServerIP(ip))
+            .catch(error => setServerIP("Không lấy được IP"));
+    }, []);
+
+    return <p>Server IP: {serverIP}</p>;
+};
 const privateRouter = [
     {
         path: "/",
@@ -51,6 +64,18 @@ const privateRouter = [
                errorElement: <NotFoundPage />
             }
         ]
+    },
+    {
+        path: "/test",
+        element: (
+            <div>
+                <h1 className="text-[30px] text-center">Trang này để thực hiện test tải cho frontend</h1>
+                <div className="text-center mt-4">
+                    <GetServerIP />
+                </div>
+            </div>
+        ),
+        errorElement: <NotFoundPage />
     },
     {
         path: "/admin",
