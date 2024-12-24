@@ -31,11 +31,11 @@ const Home = () => {
                     size={"large"}
                     items={[
                       {
-                        label: `Lazada`,
+                        label: `Shopee`,
                         key: 1,
                         children: (
                           <div className="flex flex-wrap gap-3 justify-around">
-                            {data?.lazada?.map((item, index) => {
+                            {data?.shopee?.map((item, index) => {
                               return (
                                 <Link to={"/product/" + item._id} key={index}>
                                   <Item data={item}></Item>
@@ -46,11 +46,11 @@ const Home = () => {
                         ),
                       },
                       {
-                        label: `Shopee`,
+                        label: `Shopify`,
                         key: 22,
                         children: (
                           <div className="flex flex-wrap gap-3 justify-around">
-                            {data?.shopee?.map((item, index) => {
+                            {data?.lazada?.map((item, index) => {
                               return (
                                 <Link to={"/product/" + item._id} key={index}>
                                   <Item data={item}></Item>

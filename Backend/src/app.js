@@ -11,7 +11,7 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import mongoose from "mongoose";
 import session from "express-session";
-import { createCategory, initData, readDataFromfile } from "./scripts/init.js";
+import { createCategory, deletePrd, initData, readDataFromfile } from "./scripts/init.js";
 
 dotenv.config();
 const app = express();

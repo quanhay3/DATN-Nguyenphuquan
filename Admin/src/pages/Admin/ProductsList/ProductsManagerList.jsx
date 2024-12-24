@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import ShopifyList from "./parts/ShopeeList";
+import ShopeeList from "./parts/ShopeeList";
 import LazadaList from "./parts/LazadaList";
 import { Tabs } from "antd";
 import { useGetProductsQuery } from "../../../services/product.service";
@@ -18,10 +18,10 @@ const ProductsManagerList = () => {
           {
             label: `Shopee`,
             key: 1,
-            children: <ShopifyList isLoading={isLoading} products={data?.shopee || []}></ShopifyList>,
+            children: <ShopeeList isLoading={isLoading} products={data?.shopee || []}></ShopeeList>,
           },
           {
-            label: `Shopee`,
+            label: `Shopify`,
             key: 2,
             children: <LazadaList isLoading={isLoading} products={data?.lazada || []}></LazadaList>,
           }

@@ -29,15 +29,11 @@ export const initData = async () => {
 export const readDataFromfile = async () => {
   const productCount = await Product.countDocuments();
   if (
-    fs.existsSync(
-      "C:/Users/hoadn/OneDrive/Desktop/workplace/data/Shopee_Sale_Items.xlsx"
-    ) &&
+    fs.existsSync("D:/Download/lazada_sale_items (1).xlsx") &&
     productCount === 0
   ) {
     // Đọc file Excel
-    const workbook = xlsx.readFile(
-      "C:/Users/hoadn/OneDrive/Desktop/workplace/data/Shopee_Sale_Items.xlsx"
-    );
+    const workbook = xlsx.readFile("D:/Download/lazada_sale_items (1).xlsx");
     const sheet_name_list = workbook.SheetNames;
 
     // Chọn sheet đầu tiên
@@ -58,8 +54,8 @@ export const readDataFromfile = async () => {
 
       const priceWithoutDotsAndCurrency = parseFloat(
         typeof price == "string"
-          ? price.replace(/\./g, "").replace("₫", "")
-          : `${price}`.replace(/\./g, "")
+          ? price.replace(/\./g, "").replace(/\,/g, "").replace("₫", "")
+          : `${price}`.replace(/\./g, "").replace(/\,/g, "")
       );
 
       // Math.random để tạo giá trị ngẫu nhiên cho discount và quantity
@@ -74,7 +70,6 @@ export const readDataFromfile = async () => {
         description: `Đây là ${name}`, // Tạo description
         quantity: quantity,
         status: "SALE",
-        type: "Shopee",
         categoryId: categoryId,
       };
     };
@@ -97,6 +92,17 @@ export const readDataFromfile = async () => {
     }
 
     console.log("Products and categories linked successfully.");
+  }
+};
+
+export const deletePrd = async () => {
+  try {
+    const result = await Product.deleteMany({ type: "Lazada" });
+    console.log(
+      `${result.deletedCount} products with type "Lazda" have been deleted.`
+    );
+  } catch (error) {
+    console.error("Error deleting products:", error);
   }
 };
 
