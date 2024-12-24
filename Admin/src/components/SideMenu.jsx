@@ -1,7 +1,7 @@
 import { Layout, Menu } from "antd";
 const { Sider } = Layout;
 import React from "react";
-import { PieChartOutlined, ShoppingCartOutlined } from "@ant-design/icons";
+import { PieChartOutlined, ShoppingCartOutlined, UserOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import Logo from "./Logo";
 import images from "../assets/images";
@@ -19,7 +19,9 @@ const SideMenu = ({ collapsed, setCollapsed = () => {} }) => {
     getItem(<Link to="/admin">Trang chủ</Link>, "1", <PieChartOutlined />),
     getItem("Hàng hóa", "2", <ShoppingCartOutlined />, [
       getItem(<Link to="/admin/product/list">Danh sách hàng hóa</Link>, "3"),
+      getItem(<Link to="/admin/orders">Đơn hàng</Link>, "4"),
     ]),
+    getItem(<Link to="/users">Người dùng</Link>, "5", <UserOutlined />),
   ];
 
   return (

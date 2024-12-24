@@ -30,13 +30,13 @@ export const readDataFromfile = async () => {
   const productCount = await Product.countDocuments();
   if (
     fs.existsSync(
-      "C:/Users/hoadn/OneDrive/Desktop/workplace/data/lazada_sale_items.xlsx"
+      "C:/Users/hoadn/OneDrive/Desktop/workplace/data/Shopee_Sale_Items.xlsx"
     ) &&
     productCount === 0
   ) {
     // Đọc file Excel
     const workbook = xlsx.readFile(
-      "C:/Users/hoadn/OneDrive/Desktop/workplace/data/lazada_sale_items.xlsx"
+      "C:/Users/hoadn/OneDrive/Desktop/workplace/data/Shopee_Sale_Items.xlsx"
     );
     const sheet_name_list = workbook.SheetNames;
 
@@ -74,6 +74,7 @@ export const readDataFromfile = async () => {
         description: `Đây là ${name}`, // Tạo description
         quantity: quantity,
         status: "SALE",
+        type: "Shopee",
         categoryId: categoryId,
       };
     };

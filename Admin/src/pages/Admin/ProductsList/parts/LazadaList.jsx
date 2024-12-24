@@ -25,9 +25,9 @@ const LazadaList = ({ products = [], isLoading = false }) => {
   ];
   return (
     <div>
-      <Button className="my-4" type="primary" icon={<PlusCircleOutlined />}>
+      {/* <Button className="my-4" type="primary" icon={<PlusCircleOutlined />}>
         Thêm sản phẩm
-      </Button>
+      </Button> */}
       <Table
         dataSource={data}
         columns={columns}

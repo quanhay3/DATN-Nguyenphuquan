@@ -3,7 +3,7 @@ import { Button, Table } from "antd";
 import React, { memo, useEffect, useState } from "react";
 import { getDataTableList } from "../../../../helper/configTableData";
 
-const ShopifyList = ({ products = [], isLoading = false }) => {
+const ShopeeList = ({ products = [], isLoading = false }) => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -39,4 +39,4 @@ const ShopifyList = ({ products = [], isLoading = false }) => {
   );
 };
 
-export default memo(ShopifyList);
+export default memo(ShopeeList);

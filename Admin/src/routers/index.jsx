@@ -11,6 +11,7 @@ import CartPage from "../pages/Client/Cart/CartPage"
 import Complete from "../pages/Client/Complete/Complete"
 import OrderHistory from "../pages/Client/Order/OrderHistory"
 import React, { useState, useEffect } from "react";
+import OrderPage from "../pages/Admin/Order/OrderPage"
 
 const GetServerIP = () => {
     const [serverIP, setServerIP] = useState("Loading...");
@@ -88,6 +89,10 @@ const privateRouter = [
             {
                 path: "product/list",
                 element: <ProductsManagerList/>
+            },
+            {
+                path: "orders",
+                element: <OrderPage></OrderPage>
             }
         ]
     }
