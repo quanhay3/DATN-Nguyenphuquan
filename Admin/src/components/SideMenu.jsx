@@ -21,7 +21,7 @@ const SideMenu = ({ collapsed, setCollapsed = () => {} }) => {
       getItem(<Link to="/admin/product/list">Danh sách hàng hóa</Link>, "3"),
       getItem(<Link to="/admin/orders">Đơn hàng</Link>, "4"),
     ]),
-    getItem(<Link to="/users">Người dùng</Link>, "5", <UserOutlined />),
+    getItem(<Link to="/admin/users">Người dùng</Link>, "5", <UserOutlined />),
   ];
 
   return (

@@ -12,6 +12,8 @@ import Complete from "../pages/Client/Complete/Complete"
 import OrderHistory from "../pages/Client/Order/OrderHistory"
 import React, { useState, useEffect } from "react";
 import OrderPage from "../pages/Admin/Order/OrderPage"
+import UserManagementPage from "../pages/Admin/User/UserManagementPage"
+import OrderDetail from "../pages/Client/Order/OrderDetail/OrderDetail"
 
 const GetServerIP = () => {
     const [serverIP, setServerIP] = useState("Loading...");
@@ -55,6 +57,11 @@ const privateRouter = [
                 errorElement: <NotFoundPage />
             },
             {
+                path: 'order/:id',
+                element: <OrderDetail/>,
+                errorElement: <NotFoundPage />
+            },
+            {
                path: 'login',
                element: <Login />,
                errorElement: <NotFoundPage />
@@ -84,16 +91,24 @@ const privateRouter = [
         children: [
             {
                 path: "",
-                element: <h1>Home</h1>
+                element: <h1>Home</h1>,
+                errorElement: <NotFoundPage />
             },
             {
                 path: "product/list",
-                element: <ProductsManagerList/>
+                element: <ProductsManagerList/>,
+                errorElement: <NotFoundPage />
             },
             {
                 path: "orders",
-                element: <OrderPage></OrderPage>
-            }
+                element: <OrderPage></OrderPage>,
+                errorElement: <NotFoundPage />
+            },
+            {
+                path: "users",
+                element: <UserManagementPage></UserManagementPage>,
+                errorElement: <NotFoundPage />
+            },
         ]
     }
 ]

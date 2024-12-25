@@ -40,11 +40,13 @@ export const createOrder = async (req, res, next) => {
       }
 
       // Tính giá trị tổng cho từng sản phẩm
-      const totalPrice = product.price * item.quantity;
+      const totalPrice =
+        (product.price - (product.price * product.discount) / 100) *
+        item.quantity;
       items.push({
         productId: product._id,
         quantity: item.quantity,
-        price: product.price,
+        price: product.price - (product.price * product.discount) / 100,
         totalPrice: totalPrice,
       });
 
@@ -143,7 +145,7 @@ export const getOrdersByUser = async (req, res, next) => {
 export const getAllOrders = async (req, res, next) => {
   try {
     // Lấy tất cả đơn hàng
-    const orders = await Order.find().populate("items.productId"); // Lấy thông tin sản phẩm trong đơn hàng
+    const orders = await Order.find().populate(["items.productId", "userId"]); // Lấy thông tin sản phẩm trong đơn hàng
 
     if (orders.length === 0) {
       req[RESPONSE_STATUS] = 404;
@@ -164,7 +166,11 @@ export const getOrder = async (req, res, next) => {
   try {
     const { orderId } = req.params;
 
-    const order = await Order.findById(orderId).populate("items.productId");
+    const order = await Order.findById(orderId).populate([
+      "items.productId",
+      "userId"
+    ]);
+
     if (!order) {
       req[RESPONSE_STATUS] = 404;
       req[RESPONSE_MESSAGE] = `Đơn hàng không tìm thấy`;

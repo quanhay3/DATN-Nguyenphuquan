@@ -58,8 +58,8 @@ const ProductDetailView = () => {
 
   return (
     <div className="my-12 mx-10">
-      <Link className="text-black" to={"/"}>
-        <Button type="link">
+      <Link className="text-black mb-3 block" to={"/"}>
+        <Button>
           <ArrowLeftOutlined />
           Quay lại
         </Button>

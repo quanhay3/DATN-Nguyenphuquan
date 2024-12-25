@@ -28,10 +28,10 @@ const userApi = createApi({
 
       // Cập nhật thông tin người dùng
       updateUser: builder.mutation({
-         query: ({ userId, userData }) => ({
-            url: `/user/${userId}`,
+         query: ({ userId, state }) => ({
+            url: `/user/${userId}/state`,
             method: 'PUT',
-            body: userData,
+            body: { state },
          }),
          invalidatesTags: ['User'],
       }),

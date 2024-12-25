@@ -75,7 +75,7 @@ const OrderHistory = () => {
               </div>
             </div>
             <div className="text-right">
-              <Link to={"/"}>
+              <Link to={"/order/"+ order?._id}>
                 <Button>Chi tiết</Button>
               </Link>
             </div>

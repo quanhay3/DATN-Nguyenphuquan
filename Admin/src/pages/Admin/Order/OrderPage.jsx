@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Table, Button, Modal, Tag, Select, message } from "antd";
 import { useGetAllOrdersQuery, useUpdateOrderStatusMutation } from "../../../services/order.service";
+import { getDataTableList } from "../../../helper/configTableData";
 
 const { Option } = Select;
 
@@ -50,6 +51,18 @@ const OrderPage = () => {
       render: (amount) => `${amount.toLocaleString()} ₫`,
     },
     {
+      title: "Payment method",
+      dataIndex: "paymentMethod",
+      key: "paymentMethod",
+      render: (paymentMethod) => {
+        const colors = {
+          CASH_ON_DELIVERY: "blue",
+          ONLINE_PAYMENT: "purple",
+        };
+        return <Tag color={colors[paymentMethod]}>{paymentMethod}</Tag>;
+      },
+    },
+    {
       title: "Status",
       dataIndex: "status",
       key: "status",
@@ -89,7 +102,7 @@ const OrderPage = () => {
   return (
     <div>
       <Table
-        dataSource={orders?.body?.data || []}
+        dataSource={orders?.body?.data ? getDataTableList(orders?.body?.data) : []}
         columns={columns}
         rowKey="_id"
         pagination={{ pageSize: 10 }}
@@ -107,6 +120,7 @@ const OrderPage = () => {
             <p><b>Order ID:</b> {selectedOrder?._id}</p>
             <p><b>User:</b> {selectedOrder.userId?.userName}</p>
             <p><b>Shipping Address:</b> {selectedOrder.shippingAddress}</p>
+            <p><b>Payment method:</b> {selectedOrder.paymentMethod}</p>
             <p><b>Total Amount:</b> {selectedOrder.totalAmount.toLocaleString()} ₫</p>
             <p><b>Status:</b> {selectedOrder.status}</p>
             <h3>Items:</h3>
