@@ -1,6 +1,6 @@
+import React from "react";
 import Title from "antd/es/typography/Title"
 import { Link } from "react-router-dom"
-
 
 const IntroducePage = () => {
     return (
