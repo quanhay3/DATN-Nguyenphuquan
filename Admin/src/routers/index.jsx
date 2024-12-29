@@ -14,7 +14,7 @@ import React, { useState, useEffect } from "react";
 import OrderPage from "../pages/Admin/Order/OrderPage"
 import UserManagementPage from "../pages/Admin/User/UserManagementPage"
 import OrderDetail from "../pages/Client/Order/OrderDetail/OrderDetail"
-import IntroducePage from "../pages/Client/Introduce/IntroDucePage"
+import IntroducePage from "../pages/Client/Introduce/IntroducePage"
 import ContactPage from "../pages/Client/Contact/ContactPage"
 import ProductsPage from "../pages/Client/Products/ProductsPage"
 import UserInfoPage from "../pages/Client/Info/UserInfoPage"
