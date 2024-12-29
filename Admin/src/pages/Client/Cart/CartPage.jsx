@@ -9,10 +9,10 @@ import { useCreateOrderMutation } from "../../../services/order.service";
 
 const CartPage = () => {
   const [showfetch, setShowFetch] = useState(false);
-  const [address, setAddress] = useState("");
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const auth = useSelector((state) => state.userReducer);
+  const [address, setAddress] = useState(auth?.user?.address || "");
   const {
     data: cartData,
     isLoading: cartLoading,
@@ -22,6 +22,7 @@ const CartPage = () => {
 
   useEffect(() => {
     if (auth.user?._id) {
+      setAddress(auth?.user?.address || "")
       setShowFetch(true);
     }
   }, [auth.user?._id]);

@@ -150,7 +150,7 @@ const Header = () => {
                   className="cursor-pointer  main-menu-item text-[17px] xl:py-[40px] xl:px-[15px] font-bold group max-xl:text-[#6f6f6f] max-xl:text-[14px] max-xl:py-[10px] max-xl:px-[15px] max-xl:border-t-[1px]  max-xl:border-[#e2e2e2] relative group/menu-item"
                 >
                   <Link
-                    to="/introduct"
+                    to="/introduce"
                     className='block group-hover:text-redTextColor after:content-[""] after:w-[0] after:h-[2px] after:bg-redTextColor after:max-xl:hidden after:transition-all after:duration-300 group-hover/menu-item:after:w-[calc(100%-30px)] after:block after:absolute after:bottom-0 after:left-[15px]'
                   >
                     Giới thiệu
@@ -250,7 +250,7 @@ const Header = () => {
                             {auth.user?.role === "member" ? (
                               <div>
                                 <Link
-                                  to="/userInformation"
+                                  to="/userinformation"
                                   className="flex items-center gap-[5px] py-[5px]"
                                 >
                                   <PiUserListBold></PiUserListBold> Hồ sơ của

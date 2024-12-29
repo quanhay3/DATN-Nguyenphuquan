@@ -17,13 +17,6 @@ export const addToCart = async (req, res, next) => {
       return next();
     }
 
-    // Tính giá sau khi áp dụng discount (nếu có)
-    let priceAfterDiscount = product.price;
-    if (product.discount) {
-      priceAfterDiscount =
-        product.price - (product.price * product.discount) / 100;
-    }
-
     // Tìm giỏ hàng của người dùng
     let cart = await Cart.findOne({ userId });
     if (!cart) {
@@ -40,13 +33,33 @@ export const addToCart = async (req, res, next) => {
       (item) => item.productId.toString() === productId
     );
 
+    let currentCartQuantity = 0;
     if (productIndex >= 0) {
-      // Nếu có, cập nhật số lượng và giá trị tổng
-      cart.items[productIndex].quantity += quantity;
+      currentCartQuantity = cart.items[productIndex].quantity;
+    }
+
+    // Tổng số lượng (trong giỏ + yêu cầu thêm) không được vượt quá số lượng trong kho
+    const totalRequestedQuantity = currentCartQuantity + quantity;
+    if (totalRequestedQuantity > product.quantity) {
+      req[RESPONSE_STATUS] = 400;
+      req[RESPONSE_MESSAGE] = `Không đủ sản phẩm trong kho. Hiện chỉ còn ${product.quantity - currentCartQuantity} sản phẩm khả dụng.`;
+      return next();
+    }
+
+    // Tính giá sau khi áp dụng discount (nếu có)
+    let priceAfterDiscount = product.price;
+    if (product.discount) {
+      priceAfterDiscount =
+        product.price - (product.price * product.discount) / 100;
+    }
+
+    if (productIndex >= 0) {
+      // Nếu sản phẩm đã có trong giỏ hàng, cập nhật số lượng và giá trị tổng
+      cart.items[productIndex].quantity = totalRequestedQuantity;
       cart.items[productIndex].totalPrice =
-        cart.items[productIndex].quantity * priceAfterDiscount;
+        totalRequestedQuantity * priceAfterDiscount;
     } else {
-      // Nếu không, thêm mới vào giỏ hàng
+      // Nếu sản phẩm chưa có trong giỏ hàng, thêm mới
       cart.items.push({
         productId,
         quantity,
@@ -75,6 +88,7 @@ export const addToCart = async (req, res, next) => {
     return next();
   }
 };
+
 
 export const getCart = async (req, res, next) => {
   try {

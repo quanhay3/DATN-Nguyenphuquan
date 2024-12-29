@@ -133,3 +133,26 @@ export const createCategory = async () => {
 
   categories.map(async (item) => await Category.create(item));
 };
+
+export const cleanCategoryProducts = async () => {
+  try {
+    const categories = await Category.find().populate("products");
+
+    for (const category of categories) {
+      const validProducts = category.products.filter(
+        (product) => product !== null
+      );
+
+      if (validProducts.length !== category.products.length) {
+        // Cập nhật lại danh sách sản phẩm trong category
+        category.products = validProducts.map((product) => product._id);
+        await category.save();
+        console.log(`Updated category: ${category.name}`);
+      }
+    }
+
+    console.log("Category cleaning completed.");
+  } catch (error) {
+    console.error("Error cleaning category products:", error);
+  }
+};

@@ -38,11 +38,16 @@ const ProductDetailView = () => {
       // const itemPriceWithDiscount = item?.discount
       //   ? item?.price - (item?.price * item?.discount) / 100
       //   : item?.price;
+      try {
+        const data = await addToCart({
+          productId: item._id,
+          quantity,
+        }).unwrap();
 
-      await addToCart({
-        productId: item._id,
-        quantity,
-      }).then(() => message.success("Đã thêm sản phẩm vào giỏ hàng"));
+        message.success("Đã thêm sản phẩm vào giỏ hàng");
+      } catch (error) {
+        message.error(error?.data?.message);
+      }
       // dispatch(
       //   addToCart({
       //     productId: item._id,

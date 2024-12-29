@@ -7,6 +7,57 @@ import { typeRequestMw } from "../middleware/configResponse.js";
 const { RESPONSE_MESSAGE, RESPONSE_STATUS, RESPONSE_OBJ } = typeRequestMw;
 dotenv.config();
 
+export const getProducts = async (req, res) => {
+  const {
+    _page = 1,
+    _order = "desc",
+    _limit = 9999,
+    _sort = "createdAt",
+    _q = "",
+    _categoryId = "",
+  } = req.query;
+  const options = {
+    page: _page,
+    limit: _limit,
+    sort: {
+      [_sort]: _order === "desc" ? -1 : 1,
+    },
+    populate: ["categoryId"],
+  };
+  const query = {};
+
+  if (_q) {
+    query.name = { $regex: _q, $options: "i" };
+  }
+
+  if (_categoryId) {
+    query.categoryId = _categoryId;
+  }
+
+  try {
+    const products = await Product.paginate(query, options);
+
+    // console.log(minPrice, maxPrice);
+    return res.status(201).json({
+      body: {
+        data: products.docs,
+        pagination: {
+          currentPage: products.page,
+          totalPages: products.totalPages,
+          totalItems: products.totalDocs,
+        },
+      },
+      status: 201,
+      message: "Get products successfully",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: 500,
+      message: error.message,
+    });
+  }
+};
+
 export const getAllProducts = async (req, res, next) => {
   try {
     // Tìm tất cả sản phẩm

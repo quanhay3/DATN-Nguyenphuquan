@@ -4,6 +4,7 @@ import userReducer from './slices/authSlice';
 import cartReducer from './slices/cartSlice';
 import userServiceReducer from './services/user.service';
 import cartApi from './services/cart.service';  
+import categoryApi from './services/category.service';  
 import orderApi from './services/order.service';
 import productApi from './services/product.service';
 
@@ -14,6 +15,7 @@ export const store = configureStore({
       [cartApi.reducerPath]: cartApi.reducer,
       [productApi.reducerPath]: productApi.reducer,
       [orderApi.reducerPath]: orderApi.reducer,
+      [categoryApi.reducerPath]: categoryApi.reducer,
       userReducer: userReducer,
       cartReducer: cartReducer,
    },
@@ -22,6 +24,7 @@ export const store = configureStore({
          authReducer.middleware,
          userServiceReducer.middleware,
          cartApi.middleware,
+         categoryApi.middleware,
          orderApi.middleware,
          productApi.middleware,
       ])

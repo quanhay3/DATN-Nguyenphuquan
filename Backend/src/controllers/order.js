@@ -125,7 +125,9 @@ export const getOrdersByUser = async (req, res, next) => {
     const userId = req.user._id; // Lấy userId từ thông tin token
 
     // Tìm tất cả đơn hàng của người dùng
-    const orders = await Order.find({ userId }).populate("items.productId"); // Lấy thông tin sản phẩm trong đơn hàng
+    const orders = await Order.find({ userId })
+      .sort({ createdAt: -1 })
+      .populate("items.productId"); // Lấy thông tin sản phẩm trong đơn hàng
 
     if (orders.length === 0) {
       req[RESPONSE_STATUS] = 404;
@@ -145,7 +147,9 @@ export const getOrdersByUser = async (req, res, next) => {
 export const getAllOrders = async (req, res, next) => {
   try {
     // Lấy tất cả đơn hàng
-    const orders = await Order.find().populate(["items.productId", "userId"]); // Lấy thông tin sản phẩm trong đơn hàng
+    const orders = await Order.find()
+      .sort({ createdAt: -1 })
+      .populate(["items.productId", "userId"]); // Lấy thông tin sản phẩm trong đơn hàng
 
     if (orders.length === 0) {
       req[RESPONSE_STATUS] = 404;
@@ -168,7 +172,7 @@ export const getOrder = async (req, res, next) => {
 
     const order = await Order.findById(orderId).populate([
       "items.productId",
-      "userId"
+      "userId",
     ]);
 
     if (!order) {

@@ -14,6 +14,10 @@ import React, { useState, useEffect } from "react";
 import OrderPage from "../pages/Admin/Order/OrderPage"
 import UserManagementPage from "../pages/Admin/User/UserManagementPage"
 import OrderDetail from "../pages/Client/Order/OrderDetail/OrderDetail"
+import IntroducePage from "../pages/Client/Introduce/IntroDucePage"
+import ContactPage from "../pages/Client/Contact/ContactPage"
+import ProductsPage from "../pages/Client/Products/ProductsPage"
+import UserInfoPage from "../pages/Client/Info/UserInfoPage"
 
 const GetServerIP = () => {
     const [serverIP, setServerIP] = useState("Loading...");
@@ -70,7 +74,27 @@ const privateRouter = [
                path: 'signup',
                element: <SignUp />,
                errorElement: <NotFoundPage />
-            }
+            },
+            {
+               path: 'introduce',
+               element: <IntroducePage />,
+               errorElement: <NotFoundPage />
+            },
+            {
+               path: 'contact',
+               element: <ContactPage />,
+               errorElement: <NotFoundPage />
+            },
+            {
+               path: 'products',
+               element: <ProductsPage />,
+               errorElement: <NotFoundPage />
+            },
+            {
+                path: "userinformation",
+                element: <UserInfoPage />,
+                errorElement: <NotFoundPage />
+            },
         ]
     },
     {

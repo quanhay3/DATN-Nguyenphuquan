@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { paramTransformer } from '../util/transformParams';
 
 const productApi = createApi({
    reducerPath: 'productApi',
@@ -8,6 +9,15 @@ const productApi = createApi({
    }),
    tagTypes: ['Product'],
    endpoints: (builder) => ({
+      getAllExpand: builder.query({
+         query: (params) => {
+            return {
+               url: '/products/filter',
+               params: paramTransformer(params)
+            };
+         },
+         providesTags: ['Product']
+      }),
       // Lấy tất cả sản phẩm
       getProducts: builder.query({
          query: () => ({
@@ -58,6 +68,7 @@ const productApi = createApi({
 });
 
 export const {
+   useGetAllExpandQuery,
    useGetProductsQuery,
    useGetProductByIdQuery,
    useAddProductMutation,
