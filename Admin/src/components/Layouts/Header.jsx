@@ -118,7 +118,7 @@ const Header = () => {
               <Link to="/">
                 <img
                   className="logo-img w-[200px] max-h-[80px] aspect-square"
-                  src={images.logoNoBackground}
+                  src={"https://res.cloudinary.com/dpwto5xyv/image/upload/v1735803469/learnECMAS/logo-nobackground_xhaeha.png"}
                   alt=""
                 />
               </Link>

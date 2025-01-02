@@ -35,12 +35,12 @@ const SideMenu = ({ collapsed, setCollapsed = () => {} }) => {
           {!collapsed ? (
             <Logo
               className="w-[200px] h-[65px]"
-              url={images.adminLogoPath}
+              url={"https://res.cloudinary.com/dpwto5xyv/image/upload/v1735803469/learnECMAS/adminLogo_i0niub.png"}
             ></Logo>
           ) : (
             <Logo
               className="w-[65px] h-[65px]"
-              url={images.logoIconPath}
+              url={"https://res.cloudinary.com/dpwto5xyv/image/upload/v1735803469/learnECMAS/logoIcon_wqukyx.png"}
             ></Logo>
           )}
           {/* </Link> */}

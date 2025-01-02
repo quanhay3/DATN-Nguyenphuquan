@@ -65,7 +65,7 @@ const Footer = () => {
               <div className="logo-ft rounded-full overflow-hidden inline-block">
                 <img
                   className="max-w-[120px]"
-                  src={images.adminLogoPath}
+                  src={"https://res.cloudinary.com/dpwto5xyv/image/upload/v1735803469/learnECMAS/adminLogo_i0niub.png"}
                   alt="logo"
                 />
               </div>
