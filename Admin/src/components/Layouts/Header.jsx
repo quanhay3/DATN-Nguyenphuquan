@@ -44,11 +44,6 @@ const Header = () => {
     }
   }, [auth.user?._id]);
 
-  useEffect(() => {
-    console.log(cartData);
-  }, [cartData])
-  
-
   function scrollFunction() {
     const btn_totop = document.querySelector(".section-icon-to-top");
     if (document.documentElement.scrollTop > 400) {
@@ -186,7 +181,7 @@ const Header = () => {
                 </li>
               </ul>
             </div>
-            <div className="header-icon xl:w-[25%]">
+            <div className="header-icon xl:w-[30%]">
               <ul className="list-header-icon flex justify-end items-center">
                 <li
                   onClick={showMenuReponsive}
@@ -237,7 +232,7 @@ const Header = () => {
                   </li>
                 ) : (
                   <>
-                    <li className="max-sm:hidden header-icon-item header-search-icon text-[20px] ml-[30px] transition-colors duration-300 cursor-pointer hover:text-[#d2401e]">
+                    <li className="max-sm:hidden header-icon-item header-search-icon text-[20px] w-[30px] h-[30px] ml-[30px] transition-colors duration-300 cursor-pointer hover:text-[#d2401e]">
                       <Popover
                         placement="bottom"
                         content={
@@ -295,7 +290,7 @@ const Header = () => {
                       >
                         <img
                           src={auth?.user?.avatar}
-                          className="w-7  aspect-square m-0 rounded-full cursor-pointer"
+                          className="w-full h-full aspect-square m-0 rounded-full cursor-pointer"
                           alt="Ảnh đại diện"
                         />
                       </Popover>

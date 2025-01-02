@@ -51,7 +51,7 @@ const Search = () => {
   };
 
   return (
-    <div className="w-[30vw] text-black  max-w-[80vw]">
+    <div className="w-[15vw] text-black max-w-[80vw]">
       <HeadlessTippy
         interactive
         placement="bottom"
