@@ -14,7 +14,7 @@ const Home = () => {
         <BannerSlice />
 
         <div className="my-14">
-          <h1 className="text-[32px] text-center font-bold">
+          <h1 className="text-[32px] text-center font-bold" style={{ userSelect: "none" }}>
             Sản phẩm nổi bật
           </h1>
           <div className="my-12">
@@ -31,7 +31,9 @@ const Home = () => {
                     size={"large"}
                     items={[
                       {
-                        label: `Shopee`,
+                        label: (
+                          <span style={{ userSelect: "none" }}>Shopee</span> // Prevent text selection
+                        ),
                         key: 1,
                         children: (
                           <div className="flex flex-wrap gap-3 justify-around">
@@ -46,7 +48,9 @@ const Home = () => {
                         ),
                       },
                       {
-                        label: `Shopify`,
+                        label: (
+                          <span style={{ userSelect: "none" }}>Shopify</span> // Prevent text selection
+                        ),
                         key: 22,
                         children: (
                           <div className="flex flex-wrap gap-3 justify-around">

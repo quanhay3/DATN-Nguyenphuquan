@@ -137,10 +137,12 @@ const Header = () => {
                 <li
                   onClick={showMenuReponsive}
                   className=" cursor-pointer main-menu-item group/menu-item text-[17px] xl:py-[40px] xl:px-[15px] font-bold group  max-xl:text-[#6f6f6f] max-xl:text-[14px] max-xl:py-[10px] max-xl:px-[15px] max-xl:border-t-[1px]  max-xl:border-[#e2e2e2] relative"
+                  style={{ userSelect: "none" }}
                 >
                   <Link
                     to="/"
                     className='group-hover:text-redTextColor block after:content-[""] after:w-[0] after:h-[2px] after:bg-redTextColor after:max-xl:hidden after:transition-all after:duration-300 group-hover/menu-item:after:w-[calc(100%-30px)] after:block after:absolute after:bottom-0 after:left-[15px] '
+                  
                   >
                     Trang chủ
                   </Link>
@@ -152,6 +154,7 @@ const Header = () => {
                   <Link
                     to="/introduce"
                     className='block group-hover:text-redTextColor after:content-[""] after:w-[0] after:h-[2px] after:bg-redTextColor after:max-xl:hidden after:transition-all after:duration-300 group-hover/menu-item:after:w-[calc(100%-30px)] after:block after:absolute after:bottom-0 after:left-[15px]'
+                    style={{ userSelect: "none" }}
                   >
                     Giới thiệu
                   </Link>
@@ -159,6 +162,7 @@ const Header = () => {
                 <li
                   onClick={showMenuReponsive}
                   className="cursor-pointer  main-menu-item text-[17px] xl:py-[40px] xl:px-[15px] font-bold group max-xl:text-[#6f6f6f] max-xl:text-[14px] max-xl:py-[10px] max-xl:px-[15px] max-xl:border-t-[1px]  max-xl:border-[#e2e2e2] relative group/menu-item"
+                  style={{ userSelect: "none" }}
                 >
                   <Link
                     to="/products"
@@ -174,19 +178,9 @@ const Header = () => {
                   <Link
                     to="/contact"
                     className='group-hover:text-redTextColor block after:content-[""] after:w-[0] after:h-[2px] after:bg-redTextColor after:max-xl:hidden after:transition-all after:duration-300 group-hover/menu-item:after:w-[calc(100%-30px)] after:block after:absolute after:bottom-0 after:left-[15px]'
+                    style={{ userSelect: "none" }}
                   >
                     Liên hệ
-                  </Link>
-                </li>
-                <li
-                  onClick={showMenuReponsive}
-                  className="cursor-pointer sm:hidden max-sm:block  main-menu-item text-[17px] xl:py-[40px] xl:px-[15px] font-bold group max-xl:text-[#6f6f6f] max-xl:text-[14px] max-xl:py-[10px] max-xl:px-[15px] max-xl:border-t-[1px]  max-xl:border-[#e2e2e2] relative group/menu-item"
-                >
-                  <Link
-                    to="/wishList"
-                    className='group-hover:text-redTextColor block after:content-[""] after:w-[0] after:h-[2px] after:bg-redTetext-redTextColor after:max-xl:hidden after:transition-all after:duration-300 group-hover/menu-item:after:w-[calc(100%-30px)] after:block after:absolute after:bottom-0 after:left-[15px]'
-                  >
-                    Sản phẩm yêu thích
                   </Link>
                 </li>
               </ul>
