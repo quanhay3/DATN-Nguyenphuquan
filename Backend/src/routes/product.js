@@ -1,10 +1,11 @@
 import express from "express";
 const router = express.Router();
-import { getAllProducts, getProduct, getProducts } from "../controllers/product.js";
+import { getAllProducts, getProduct, getProducts, getSearch } from "../controllers/product.js";
 
 router.get('/products', getAllProducts)
 router.get('/products/filter', getProducts)
 router.get('/product/:id', getProduct)
+router.get('/products/search', getSearch)
 
 // router.get("/product/list", getProduct);
 // router.get("/token", getToken);

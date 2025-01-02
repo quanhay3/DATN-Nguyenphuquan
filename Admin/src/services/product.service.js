@@ -26,7 +26,15 @@ const productApi = createApi({
          }),
          providesTags: ['Product'],
       }),
-
+      getSearch: builder.query({
+         query: (params) => {
+            return {
+               url: '/products/search',
+               params: paramTransformer(params)
+            };
+         },
+         providesTags: ['Product'],
+      }),
       // Lấy sản phẩm theo ID
       getProductById: builder.query({
          query: (productId) => ({
@@ -70,6 +78,7 @@ const productApi = createApi({
 export const {
    useGetAllExpandQuery,
    useGetProductsQuery,
+   useGetSearchQuery,
    useGetProductByIdQuery,
    useAddProductMutation,
    useUpdateProductMutation,

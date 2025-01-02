@@ -18,6 +18,7 @@ import { useClearTokenMutation } from "../../services/auth.service";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
 import { useEffect, useState } from "react";
 import { useGetCartQuery } from "../../services/cart.service";
+import Search from "../Search/Search";
 
 const Header = () => {
   const [showfetch, setShowFetch] = useState(false);
@@ -195,9 +196,9 @@ const Header = () => {
                 </li>
                 <li
                   // onClick={showModalSearch}
-                  className="max-sm:hidden header-icon-item header-search-icon text-[20px] ml-[30px] relative transition-colors duration-300 cursor-pointer hover:text-[#d2401e]"
+                  className="ml-[30px] relative duration-300 cursor-pointer"
                 >
-                  <SearchOutlined />
+                  <Search/>
                 </li>
                 {!auth?.accessToken ? (
                   <li className="max-sm:hidden header-icon-item header-search-icon text-[20px] ml-[30px] transition-colors duration-300 cursor-pointer hover:text-[#d2401e]">

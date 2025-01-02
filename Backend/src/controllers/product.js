@@ -1,6 +1,6 @@
 // import { shopify } from "../config/Shopify.js";
 import dotenv from "dotenv";
-import Product from '../models/product.js';
+import Product from "../models/product.js";
 // import LazadaAPI from "lazada-open-platform-sdk";
 import { typeRequestMw } from "../middleware/configResponse.js";
 
@@ -58,6 +58,40 @@ export const getProducts = async (req, res) => {
   }
 };
 
+export const getSearch = async (req, res, next) => {
+  const { _q = "" } = req.query;
+  const query = {};
+
+  if (_q) {
+    query.name = { $regex: _q, $options: "i" };
+  } else if (_q == "") {
+    return res.status(201).json({
+      body: {
+        data: [],
+      },
+      status: 201,
+      message: "Get products successfully",
+    });
+  }
+
+  try {
+    const products = await Product.paginate(query);
+    // console.log(minPrice, maxPrice);
+    return res.status(201).json({
+      body: {
+        data: products.docs,
+      },
+      status: 201,
+      message: "Get products successfully",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: 500,
+      message: error.message,
+    });
+  }
+};
+
 export const getAllProducts = async (req, res, next) => {
   try {
     // Tìm tất cả sản phẩm
@@ -68,23 +102,22 @@ export const getAllProducts = async (req, res, next) => {
       return;
     }
 
-    const lazada = products.filter(prd => prd.type == "Lazada")
-    const shopee = products.filter(prd => prd.type == "Shopee")
+    const lazada = products.filter((prd) => prd.type == "Lazada");
+    const shopee = products.filter((prd) => prd.type == "Shopee");
 
     res.status(200).json({
-      message: 'Danh sách sản phẩm',
+      message: "Danh sách sản phẩm",
       lazada,
-      shopee
+      shopee,
     });
   } catch (error) {
-    console.error('Error fetching products:', error);
+    console.error("Error fetching products:", error);
     res.status(500).json({
-      message: 'Có lỗi khi lấy danh sách sản phẩm!',
+      message: "Có lỗi khi lấy danh sách sản phẩm!",
       error: error.message,
     });
   }
 };
-
 
 export const getProduct = async (req, res, next) => {
   try {
@@ -100,18 +133,17 @@ export const getProduct = async (req, res, next) => {
     }
 
     res.status(200).json({
-      message: 'Thông tin sản phẩm',
+      message: "Thông tin sản phẩm",
       product,
     });
   } catch (error) {
-    console.error('Error fetching product:', error);
+    console.error("Error fetching product:", error);
     res.status(500).json({
-      message: 'Có lỗi khi lấy thông tin sản phẩm!',
+      message: "Có lỗi khi lấy thông tin sản phẩm!",
       error: error.message,
     });
   }
 };
-
 
 // const appKey = "131197";
 // const clientSecret = "XB8HFsF3rFfD1sTcaEnvj20U2fobXOqU";
@@ -127,7 +159,7 @@ export const getProduct = async (req, res, next) => {
 // export const getProduct = async (req, res) => {
 //   try {
 //     console.log("run");
-    
+
 //     const aLazadaAPIWithToken = new LazadaAPI(
 //       appKey,
 //       clientSecret,
@@ -135,7 +167,7 @@ export const getProduct = async (req, res, next) => {
 //       accessToken
 //     );
 //     console.log(aLazadaAPIWithToken);
-    
+
 //     const dataFromLazada = await aLazadaAPIWithToken.getProducts({
 //       filter: "all",
 //     });
@@ -143,7 +175,7 @@ export const getProduct = async (req, res, next) => {
 //     dataFromLazada.data.products = dataFromLazada.data.products.map(item => {
 //         const data = {
 //             ...item,
-//             ...item.attributes    
+//             ...item.attributes
 //         }
 //         delete data.attributes
 //         return data
