@@ -1,104 +1,107 @@
-import { Pagination, Radio, Select, Space } from "antd";
-import React, { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Menu, Select, Pagination } from "antd";
+import React, { useState } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import Item from "../../../components/Item/Item";
-import { useGetAllExpandQuery } from "../../../services/product.service";
 import Loading from "../../../components/Loading/Loading";
+import { useGetAllExpandQuery } from "../../../services/product.service";
 import { useGetAllCategoriesQuery } from "../../../services/category.service";
 
 const ProductsPage = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const page = searchParams.get("page") != null ? searchParams.get("page") : 1;
-  const cateId =
-    searchParams.get("cate_id") != null ? searchParams.get("cate_id") : "";
-  const [filter, setFilter] = useState({ page: page || 1 });
+  const initialPage = searchParams.get("page") || 1;
+  const initialCateId = searchParams.get("cate_id") || "";
+
+  const [filter, setFilter] = useState({
+    page: Number(initialPage),
+    category: initialCateId || undefined,
+    order: "desc",
+  });
+
   const navigate = useNavigate();
   const { data: categories } = useGetAllCategoriesQuery();
   const { data: products, isLoading } = useGetAllExpandQuery({
     limit: 12,
-    page: filter?.page,
-    categoryId: filter?.category,
-    order: filter?.order || "desc",
+    page: filter.page,
+    categoryId: filter.category,
+    order: filter.order,
   });
 
-  useEffect(() => {
-    setFilter({
-      ...filter,
-      page: page,
-      category: cateId == "" ? undefined : cateId,
-    });
-    // eslint-disable-next-line
-  }, [page, cateId]);
-
-  const handlePageChange = async (pageNumber) => {
-    navigate("/products?page=" + pageNumber + "&cate_id=" + cateId);
+  const handlePageChange = (pageNumber) => {
+    setFilter((prev) => ({ ...prev, page: pageNumber }));
+    navigate(`/products?page=${pageNumber}&cate_id=${filter.category || ""}`);
   };
 
-  const onChange = (e) => {
-    navigate(
-      "/products?page=" +
-        page +
-        (e.target.value ? "&cate_id=" + e.target.value : "")
-    );
+  const handleCategoryChange = (cateId) => {
+    setFilter({ ...filter, category: cateId, page: 1 });
+    navigate(`/products?page=1&cate_id=${cateId || ""}`);
+  };
+
+  const handleOrderChange = (order) => {
+    setFilter((prev) => ({ ...prev, order }));
+  };
+
+  const renderCategories = () => {
+    return [
+      { key: "", label: "All" },
+      ...(categories?.body?.data || []).map((cate) => ({
+        key: cate._id,
+        label: cate.name,
+      })),
+    ];
   };
 
   return (
-    <div className="flex gap-3 px-10">
-      <div className="w-[20%] my-5">
-        <h2 className="text-xl my-2">Danh mục</h2>
-        <hr />
-        <Radio.Group onChange={onChange}>
-          <Space direction="vertical">
-            <Radio value={undefined}>All</Radio>
-            {categories?.body?.data?.map((cate, index) => {
-              return (
-                <Radio key={index} value={cate._id}>
-                  {cate.name}
-                </Radio>
-              );
-            })}
-          </Space>
-        </Radio.Group>
+    <div className="flex gap-6 px-10">
+      {/* Sidebar Menu */}
+      <div className="w-1/4 my-5">
+        <div className="bg-white shadow-md rounded-md p-4">
+          <h2 className="text-xl font-semibold mb-4" style={{ userSelect: "none" }}>Danh mục</h2>
+          <Menu
+            mode="inline"
+            selectedKeys={[filter.category || ""]}
+            onClick={({ key }) => handleCategoryChange(key.replace(/['"]/g, ""))}
+            items={renderCategories()}
+            style={{ userSelect: "none" }} // Prevents text selection
+          />
+        </div>
       </div>
+
+      {/* Product Listing */}
       <div className="flex-1">
-        <h1 className="text-3xl my-5 font-bold">Danh mục sản phẩm</h1>
+        <h1 className="text-3xl font-bold my-5" style={{ userSelect: "none" }}>Danh mục sản phẩm</h1>
         <div className="flex justify-end items-center my-4">
-            <Select
-              defaultValue="desc"
-              className=""
-              style={{ width: 120 }}
-              onChange={(e) => setFilter({ ...filter, order: e }) }
-              options={[
-                { value: "desc", label: "A -> Z" },
-                { value: "asc", label: "Z -> A" },
-              ]}
-            />
+          <Select
+            defaultValue={filter.order}
+            style={{ width: 150 }}
+            onChange={handleOrderChange}
+            options={[
+               // Prevent text selection
+              { value: "desc", label: "A - Z" },
+              { value: "asc", label: "Z - A" },
+            ]}
+          />
         </div>
         {!isLoading ? (
           <>
-            <div className="flex flex-wrap gap-3 justify-around">
-              {products?.body?.data?.map((item, index) => {
-                return (
-                  <Link to={"/product/" + item._id} key={index}>
-                    <Item data={item}></Item>
-                  </Link>
-                );
-              })}
+            <div className="grid grid-cols-3 gap-6">
+              {products?.body?.data?.map((item) => (
+                <Link to={`/product/${item._id}`} key={item._id}>
+                  <Item data={item}></Item>
+                </Link>
+              ))}
             </div>
             <Pagination
-              align="center"
               className="my-10"
-              onChange={(current) => handlePageChange(current)}
-              responsive={true}
+              current={filter.page}
               pageSize={12}
-              showSizeChanger={false}
-              defaultCurrent={products?.body?.pagination?.currentPage}
+              onChange={handlePageChange}
               total={products?.body?.pagination?.totalItems}
+              showSizeChanger={false}
             />
           </>
         ) : (
-          <Loading></Loading>
+          <Loading />
         )}
       </div>
     </div>
