@@ -11,7 +11,7 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import mongoose from "mongoose";
 import session from "express-session";
-import { cleanCategoryProducts, createCategory, deletePrd, initData, readDataFromfile } from "./scripts/init.js";
+import { createCategory, initData, readDataFromfile } from "./scripts/init.js";
 
 dotenv.config();
 const app = express();
@@ -47,7 +47,7 @@ mongoose
   .connect(MONGO_URL)
   .then(async () => {
     console.log("connected to db");
-    await cleanCategoryProducts()
+    // await cleanCategoryProducts()
     await createCategory()
     await initData(); //Gọi hàm khởi tạo dữ liệu
     await readDataFromfile(); // Gọi hàm đọc dữ liệu sản phẩm từ file
