@@ -23,7 +23,7 @@ const GetServerIP = () => {
     const [serverIP, setServerIP] = useState("Loading...");
 
     useEffect(() => {
-        fetch("/api/ip") // Endpoint này cần được cấu hình trong Nginx
+        fetch("/apitest/ip") // Endpoint này cần được cấu hình trong Nginx
             .then(response => response.text())
             .then(ip => setServerIP(ip))
             .catch(error => setServerIP("Không lấy được IP"));
