@@ -72,7 +72,7 @@ export const readDataFromfile = async () => {
         categoryId: categoryId,
       };
     };
-
+    // add random sản phẩm vào danh mục
     const datas = products.map(([name, price, _, url]) => {
       const randomCategory =
         categories[Math.floor(Math.random() * categories.length)];
@@ -121,3 +121,4 @@ export const createCategory = async () => {
 
   categories.map(async (item) => await Category.create(item));
 };
+

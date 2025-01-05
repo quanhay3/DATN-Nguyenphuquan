@@ -46,6 +46,7 @@ mongoose
   .connect(MONGO_URL)
   .then(async () => {
     console.log("connected to db");
+    // await cleanCategoryProducts()
     await initData(); //Gọi hàm khởi tạo dữ liệu
     await readDataFromfile(); // Gọi hàm đọc dữ liệu sản phẩm từ file
     app.listen(port, "0.0.0.0", () => {
