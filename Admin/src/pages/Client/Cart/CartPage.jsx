@@ -43,11 +43,16 @@ const CartPage = () => {
   };
 
   const showModal = () => {
-    if (address && address !== "") {
-      setIsModalOpen(true);
+    if(cartData?.body?.data?.items.length > 0) {
+      if (address && address !== "") {
+        setIsModalOpen(true);
+      } else {
+        message.error("Hãy nhập thông tin 'địa chỉ giao hàng'");
+      }
     } else {
-      message.error("Hãy nhập thông tin 'địa chỉ giao hàng'");
+      message.error("Chưa có sản phẩm nào trong giỏ hàng");
     }
+
   };
 
   const handleOk = async () => {
