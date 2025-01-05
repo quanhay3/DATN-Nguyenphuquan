@@ -119,11 +119,6 @@ const privateRouter = [
         children: [
             {
                 path: "",
-                element: <h1>Home</h1>,
-                errorElement: <NotFoundPage />
-            },
-            {
-                path: "product/list",
                 element: <ProductsManagerList/>,
                 errorElement: <NotFoundPage />
             },
