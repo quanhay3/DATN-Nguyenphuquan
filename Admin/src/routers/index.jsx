@@ -33,6 +33,10 @@ const GetServerIP = () => {
 };
 const privateRouter = [
     {
+        path: '*',
+        element: <NotFoundPage/>
+    },
+    {
         path: "/",
         element: <DefaultLayout/>,
         children: [

@@ -43,35 +43,6 @@ const productApi = createApi({
          }),
          providesTags: ['Product'],
       }),
-
-      // Thêm sản phẩm mới
-      addProduct: builder.mutation({
-         query: (newProduct) => ({
-            url: '/product',
-            method: 'POST',
-            body: newProduct,
-         }),
-         invalidatesTags: ['Product'],
-      }),
-
-      // Cập nhật sản phẩm
-      updateProduct: builder.mutation({
-         query: ({ productId, updatedProduct }) => ({
-            url: `/product/${productId}`,
-            method: 'PUT',
-            body: updatedProduct,
-         }),
-         invalidatesTags: ['Product'],
-      }),
-
-      // Xóa sản phẩm
-      deleteProduct: builder.mutation({
-         query: (productId) => ({
-            url: `/product/${productId}`,
-            method: 'DELETE',
-         }),
-         invalidatesTags: ['Product'],
-      }),
    }),
 });
 
@@ -80,9 +51,6 @@ export const {
    useGetProductsQuery,
    useGetSearchQuery,
    useGetProductByIdQuery,
-   useAddProductMutation,
-   useUpdateProductMutation,
-   useDeleteProductMutation,
 } = productApi;
 
 export default productApi;

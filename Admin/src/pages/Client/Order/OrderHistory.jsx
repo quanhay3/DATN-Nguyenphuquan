@@ -1,12 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useGetOrdersByUserQuery } from "../../../services/order.service";
 import Loading from "../../../components/Loading/Loading";
 import { Button } from "antd";
 import { Link } from "react-router-dom";
 import { format } from "date-fns";
+import { useSelector } from "react-redux";
 
 const OrderHistory = () => {
-  const { data, isLoading } = useGetOrdersByUserQuery();
+  const { data, isLoading, refetch } = useGetOrdersByUserQuery();
+  const auth = useSelector(state => state.userReducer)
+
+  useEffect(() => {
+    if (Object.keys(auth.user).length > 0) {
+      refetch();
+    } else {
+      refetch();
+    }
+  }, [auth])
 
   if (isLoading) {
     return (

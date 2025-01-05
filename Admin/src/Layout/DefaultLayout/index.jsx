@@ -19,7 +19,6 @@ const index = () => {
   useEffect(() => {
     if (!isLoading && data?.body?.data.accessToken != "") {
        dispatch(saveTokenAndUser({ accessToken: data?.body.data?.accessToken, user: data?.body.data?.data }));
-      //  dispatch(setItems())
     } else if (!isLoading && data?.body?.data.accessToken == "" && Object.keys(auth?.user).length > 0) {
        dispatch(deleteTokenAndUser())
        clearToken();

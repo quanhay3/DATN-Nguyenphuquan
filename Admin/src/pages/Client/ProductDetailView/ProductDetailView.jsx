@@ -3,7 +3,6 @@ import { useGetProductByIdQuery } from "../../../services/product.service";
 import { Link, useParams } from "react-router-dom";
 import { Button, InputNumber, message, Spin } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart } from "../../../slices/cartSlice";
 import Item from "antd/es/list/Item";
 import { useAddToCartMutation } from "../../../services/cart.service";
 import { ArrowLeftOutlined } from "@ant-design/icons";
